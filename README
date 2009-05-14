@@ -1,6 +1,24 @@
-simple wrapper over fsock*** functions to make http requests.
+This is just a simple wrapper over fsock*** functions to make http requests.
 
 This is a work in progress but it mostly seems to be working.
 Check out the examples in the examples folder.
 
 Feel free to report or fix bugs....
+
+---------- Quick example -----------------------
+<? // viva la short tags
+
+$socket = new SimpleHttp('www.google.com'); // we wanna connect to google
+$socket->setConnectTimeout(1);              // set connection timeout to 1 second
+$socket->setStreamTimeout(1, 20);           // set read/write timeout to 1 second + 20ms
+$socket->get('/');                          // perform an HTTP GET on the path "/"
+
+print_r($socket->getResponseHeaders());     // take a look at the response headers
+print_r($socket->getResponseStatus());      // check out the HTTP response status
+print_r($socket->getResponseBody());        // output the body of the HTTP response
+print_r($socket->getRawResponse());         // the raw server response... headers & body not parsed out
+
+// take a look at the examples folder for a few
+// more example. It's pretty simple really
+
+?>
