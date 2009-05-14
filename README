@@ -1,2 +1,6 @@
-simple wrapper over fsock*** functions to make http requests
+simple wrapper over fsock*** functions to make http requests.
 
+This is a work in progress but it mostly seems to be working.
+Check out the examples in the examples folder.
+
+Feel free to report or fix bugs....
