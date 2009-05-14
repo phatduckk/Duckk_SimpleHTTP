@@ -4,9 +4,9 @@ require_once 'SimpleHttp.php';
 
 class SimpleHttp_KeepAlive extends SimpleHttp
 {
-    public function __construct()
+    public function __construct($host, $port = 80)
     {
-        parent::__construct();
+        parent::__construct($host, $port);
         
         // setup the stuff for Connection: Keep-Alive
         $this->addHeader('Connection', 'Keep-Alive');
