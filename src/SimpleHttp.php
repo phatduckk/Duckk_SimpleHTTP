@@ -1,5 +1,7 @@
 <?php
 
+require_once 'SimpleHttp/Exception.php';
+
 class SimpleHttp
 {
     private $host           = null;
@@ -294,7 +296,7 @@ class SimpleHttp
         $this->socket = fsockopen($this->host, $this->port, $errno, $err, $timeout);
         
         if (! $this->socket) {
-            throw new Exception(
+            throw new SimpleHttp_Exception(
                 "Could not connect to {$this->host}:{$this->port} (code: $errno). Message: $err"                
             );
         }
@@ -408,7 +410,7 @@ class SimpleHttp
         $this->rawResquest = implode("\r\n", $writeMe) . "\r\n\r\n{$body}";
         
         if (fwrite($this->socket, $this->rawResquest) === false) {
-            throw new Exception(
+            throw new SimpleHttp_Exception(
                 "Could not write to {$this->host}:{$this->port} (code: $errno). Message: $err"                
             );            
         } 
