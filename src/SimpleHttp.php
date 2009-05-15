@@ -290,7 +290,12 @@ class SimpleHttp
         $maxConnections = self::DEFAULT_KEEPALIVE_CONNECTIONS)
     {
         $this->addHeader('Connection', 'Keep-Alive');
-        // $this->addHeader('Keep-Alive', $keepAliveValue);
+        
+        if ($maxConnections === null) {
+            $this->addHeader('Keep-Alive', $keepAliveValue);
+        } else {
+            $this->addHeader('Keep-Alive', "timeout={$timeout}, max={$maxConnections}");
+        }
     }
         
     /**
@@ -336,7 +341,7 @@ class SimpleHttp
             return;
         }
         
-        $this->debug('connecting');
+        $this->debug("connecting to {$this->host}:{$this->port}");
         
         $timeout = ($this->timeoutConnect !== null) 
             ? $this->timeoutConnect 
