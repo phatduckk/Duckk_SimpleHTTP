@@ -1,12 +1,24 @@
-This is just a simple wrapper over fsock*** functions to make http requests.
+This is just a simple wrapper over PHP's socket functions to make http requests a bit easier.
 
-This is a work in progress but it mostly seems to be working.
-Check out the examples in the examples folder.
+The class is both reusable and supports Keep-Alive. There's actually a decorator
+class (SimpleHttp_KeepAlive) to make using Keep-Alive connections a bit easier.
 
-Feel free to report or fix bugs....
+When using normal (Connection: close not Keep-alive) connections the class will 
+re-connect if you try to use it for another request. When using Keep-Alive the class
+will just keep on using the same connection.
+
+Anywho... this is a work in progress & was mostly intended for a couchdb libraray
+i was/am gonna wwrite but it mostly seems to be working so I thought some people
+could get some use out of it.
+
+Check out the examples in the examples folder & feel free to report or fix bugs.
 
 ---------- Quick example -----------------------
-<? // viva la short tags
+<?php
+
+/*
+ * Connection: close example (aka "normal")
+ */
 
 $socket = new SimpleHttp('www.google.com'); // we wanna connect to google
 $socket->setConnectTimeout(1);              // set connection timeout to 1 second
@@ -18,7 +30,24 @@ print_r($socket->getResponseStatus());      // check out the HTTP response statu
 print_r($socket->getResponseBody());        // output the body of the HTTP response
 print_r($socket->getRawResponse());         // the raw server response... headers & body not parsed out
 
-// take a look at the examples folder for a few
-// more example. It's pretty simple really
+/*
+ * Connection: Keep-Alive example
+ *
+ * You'll need to find a server that does Connection: keep-alive
+ * I created a vhost on my local box. see etc/ folder for a sample conf file
+ */
+
+$socket = new SimpleHttp_KeepAlive('couchdb.local');    
+
+echo "First request\n\n";
+$socket->get('/');
+print_r($socket->getResponseBody()); 
+
+echo "Second request on same connection\n\n";
+$socket->get('/_all_dbs');
+print_r($socket->getResponseBody());
+$socket->close(); 
+
+// more examples in the examples folder
 
 ?>
