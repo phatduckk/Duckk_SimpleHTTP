@@ -7,13 +7,16 @@ When using normal (Connection: close not Keep-alive) connections the class will
 re-connect if you try to use it for another request. When using Keep-Alive the class
 will just keep on using the same connection.
 
-Anywho... this is a work in progress & was mostly intended for a couchdb libraray
-i was/am gonna wwrite but it mostly seems to be working so I thought some people
+Anywho... this is a work in progress & was mostly intended for a couchdb library
+i was/am gonna write but it mostly seems to be working so I thought some people
 could get some use out of it.
 
 Check out the examples in the examples folder & feel free to report or fix bugs.
 
----------- Quick example -----------------------
+-Arin
+
+----------------------- Quick examples -----------------------
+
 <?php
 
 /*
