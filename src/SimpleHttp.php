@@ -284,6 +284,13 @@ class SimpleHttp
      * The Connection header will automatically be set to Keep-Alive.
      * You should probably make sure you're using HTTP 1.1
      *
+     * You can set an arbitrary value for the Keep-Alive header by setting
+     * $timeout to whatever you want and $maxConnections to null. This will let
+     * you do something like Keep-Alive: 400 or Keep-Alive: RandomShit=9, foo=bar 
+     *
+     * To set a Keep-Alive header with Keep-Alive: timeout=200, max=6
+     * then pass in int's for both $timeout and $maxConnections
+     *
      * @param int $keepAliveValue The value for the Keep-Alive request header
      */
     public function setKeepAvlive($timeout = self::DEFAULT_KEEPALIVE_TIMEOUT, 
@@ -292,7 +299,7 @@ class SimpleHttp
         $this->addHeader('Connection', 'Keep-Alive');
         
         if ($maxConnections === null) {
-            $this->addHeader('Keep-Alive', $keepAliveValue);
+            $this->addHeader('Keep-Alive', $timeout);
         } else {
             $this->addHeader('Keep-Alive', "timeout={$timeout}, max={$maxConnections}");
         }
