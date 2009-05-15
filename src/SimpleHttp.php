@@ -46,6 +46,7 @@ class SimpleHttp
     private $rawResponse    = null;
     private $rawResquest    = null;
     private $respStatus     = null;
+    private $isDebug        = false;
     
     const HTTP_VERSION_1_0 = '1.0';
     const HTTP_VERSION_1_1 = '1.1';
@@ -56,19 +57,24 @@ class SimpleHttp
     const HTTP_METHOD_DELETE = 'DELETE';
     const HTTP_METHOD_HEAD   = 'HEAD';
     
+    const DEFAULT_PORT                  = 80;
+    const DEFAULT_KEEPALIVE_TIMEOUT     = 50;
+    const DEFAULT_KEEPALIVE_CONNECTIONS = 100;
+    
     /**
      * Constructor
      *
      * @param string $host The http host
      * @param int    $port The port to connect to
      */
-    public function __construct($host, $port = 80)
+    public function __construct($host, $port = self::DEFAULT_PORT)
     {
         $this->host = $host;
         $this->port = $port;
         
         $this->addHeader('User-Agent', 'PHP: ' . get_class());
         $this->addHeader('Host', $host);
+        $this->addHeader('Connection', 'close');
     }        
     
     /**
@@ -162,7 +168,6 @@ class SimpleHttp
     {
         $this->httpMethod = $method;
         $this->setPath($path);        
-        $this->connect();        
         $this->write($body);
         $this->read();        
     }
@@ -274,6 +279,21 @@ class SimpleHttp
     }
     
     /**
+     * Set the value of the Keep-Alive request header
+     *
+     * The Connection header will automatically be set to Keep-Alive.
+     * You should probably make sure you're using HTTP 1.1
+     *
+     * @param int $keepAliveValue The value for the Keep-Alive request header
+     */
+    public function setKeepAvlive($timeout = self::DEFAULT_KEEPALIVE_TIMEOUT, 
+        $maxConnections = self::DEFAULT_KEEPALIVE_CONNECTIONS)
+    {
+        $this->addHeader('Connection', 'Keep-Alive');
+        // $this->addHeader('Keep-Alive', $keepAliveValue);
+    }
+        
+    /**
      * Set the timeout for the socket connection
      *
      * @param int $sec The number of seconds before the connection times out
@@ -316,6 +336,8 @@ class SimpleHttp
             return;
         }
         
+        $this->debug('connecting');
+        
         $timeout = ($this->timeoutConnect !== null) 
             ? $this->timeoutConnect 
             : ini_get("default_socket_timeout");
@@ -326,7 +348,9 @@ class SimpleHttp
             throw new SimpleHttp_Exception(
                 "Could not connect to {$this->host}:{$this->port} (code: $errno). Message: $err"                
             );
-        }
+        } 
+        
+        $this->connected = true;
     }
     
     /**
@@ -353,6 +377,7 @@ class SimpleHttp
         $headerParts         = explode("\r\n", $rawHeaders);
         $contentLengthKey    = null;
         $transferEncodingKey = null;
+        $connectionKey       = null;
         
         if (! empty($headerParts)) {
             foreach ($headerParts as $header) {
@@ -361,14 +386,19 @@ class SimpleHttp
                 } else {                                                            
                     list($headerName, $headerValue) = explode(':', $header, 2);
                     $this->respHeaders[$headerName] = trim($headerValue);
+                    $lcHeaderName                   = strtolower($headerName);
                     
-                    if (strtolower($headerName) == 'content-length') {
+                    if ($lcHeaderName == 'content-length') {
                         $contentLengthKey = $headerName;
-                    } else if (strtolower($headerName) == 'transfer-encoding') {
+                    } else if ($lcHeaderName == 'transfer-encoding') {
                         $transferEncodingKey = $headerName;
+                    } else if ($lcHeaderName == 'connection') {
+                        $connectionKey = $headerName;
                     }
                 }         
             }
+            
+            $this->debug($this->respHeaders); // debug response headers
         }        
              
         if ($transferEncodingKey != null
@@ -405,7 +435,12 @@ class SimpleHttp
         }
         
         $this->rawResponse .= $this->respBody;
-        $this->respBody     = rtrim($this->respBody);        
+        $this->respBody     = rtrim($this->respBody);                
+        
+        if (! $connectionKey || (strtolower($this->respHeaders[$connectionKey]) != 'keep-alive')) {
+            $this->debug('Server didn\'t send Connection: Keep-Alive. Closing connection');
+            $this->close();
+        }
     }
     
     /**
@@ -413,10 +448,14 @@ class SimpleHttp
      */
     public function close()
     {
-        // fclose($this->socket);
+        if (is_resource($this->socket)) {
+            fclose($this->socket);
+        }
         
         $this->connected = false;
-        $this->socket    = null;                
+        $this->socket    = null;      
+        
+        $this->debug('connection closed');
     }
     
     /**
@@ -443,7 +482,33 @@ class SimpleHttp
         } 
         
         stream_set_timeout($this->socket, $this->timeoutStream['sec'], $this->timeoutStream['ms']);
-        // echo $this->rawResquest;
+        $this->debug($this->rawResquest);
+    }
+    
+    /**
+     * Turn debugging on or off
+     *
+     * @param bool $isDebug Whether debugging is on or not
+     */
+    public function setDebug($isDebug = false) 
+    {
+        $this->isDebug = $isDebug;
+    }
+    
+    /**
+     * Debug stuff by using PHP's error_log
+     *
+     * Check out your PHP installation's value for error_log in php.ini 
+     * via ini_get('error_log') to find out where this info is going.
+     * see: http://us.php.net/manual/en/function.error-log.php for more info
+     *
+     * @param mixed $o The value to send to error_log
+     */
+    protected function debug($o)
+    {
+        if ($this->isDebug) {
+            error_log(print_r($o, true) . "\n");
+        }
     }
 }
 

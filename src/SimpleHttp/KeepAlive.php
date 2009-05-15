@@ -37,14 +37,15 @@ class SimpleHttp_KeepAlive extends SimpleHttp
      * Call the parent, set Connection header to Keep-Alive, and finally
      * set the HTTP version to 1.1
      */
-    public function __construct($host, $port = 80)
+    public function __construct($host, $port = self::DEFAULT_PORT, 
+        $keepAliveTimeout = self::DEFAULT_KEEPALIVE_TIMEOUT,
+        $keepAliveConnections = self::DEFAULT_KEEPALIVE_CONNECTIONS)
     {
         parent::__construct($host, $port);
         
-        // setup the stuff for Connection: Keep-Alive
-        $this->addHeader('Connection', 'Keep-Alive');
+        $this->setKeepAvlive($keepAliveTimeout, $keepAliveConnections);
         $this->setHttpVersion(self::HTTP_VERSION_1_1);
-    }
+    }    
     
     /**
      * Override parent::setHttpVersion() in order to not
