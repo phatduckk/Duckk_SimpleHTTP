@@ -1,0 +1,658 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>File Source for SimpleHTTP.php</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><h1 align="center">Source for file SimpleHTTP.php</h1>
+<p>Documentation is available at <a href="../SimpleHTTP/_SimpleHTTP.php.html">SimpleHTTP.php</a></p>
+<div class="src-code">
+<div class="src-code"><ol><li><div class="src-line"><a name="a1"></a><strong>&lt;?php</strong></div></li>
+<li><div class="src-line"><a name="a2"></a><font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a3"></a><font color="#009999">&nbsp;*&nbsp;Config</font></div></li>
+<li><div class="src-line"><a name="a4"></a><font color="#009999">&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a5"></a><font color="#009999">&nbsp;*&nbsp;PHP&nbsp;version&nbsp;5.2.0+</font></div></li>
+<li><div class="src-line"><a name="a6"></a><font color="#009999">&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a7"></a><font color="#009999">&nbsp;*&nbsp;LICENSE:&nbsp;This&nbsp;source&nbsp;file&nbsp;is&nbsp;subject&nbsp;to&nbsp;the&nbsp;New&nbsp;BSD&nbsp;license&nbsp;that&nbsp;is</font></div></li>
+<li><div class="src-line"><a name="a8"></a><font color="#009999">&nbsp;*&nbsp;available&nbsp;through&nbsp;the&nbsp;world-wide-web&nbsp;at&nbsp;the&nbsp;following&nbsp;URI:</font></div></li>
+<li><div class="src-line"><a name="a9"></a><font color="#009999">&nbsp;*&nbsp;http://www.opensource.org/licenses/bsd-license.php.&nbsp;If&nbsp;you&nbsp;did&nbsp;not&nbsp;receive</font></div></li>
+<li><div class="src-line"><a name="a10"></a><font color="#009999">&nbsp;*&nbsp;a&nbsp;copy&nbsp;of&nbsp;the&nbsp;New&nbsp;BSD&nbsp;License&nbsp;and&nbsp;are&nbsp;unable&nbsp;to&nbsp;obtain&nbsp;it&nbsp;through&nbsp;the&nbsp;web,</font></div></li>
+<li><div class="src-line"><a name="a11"></a><font color="#009999">&nbsp;*&nbsp;please&nbsp;send&nbsp;a&nbsp;note&nbsp;to&nbsp;license@php.net&nbsp;so&nbsp;we&nbsp;can&nbsp;mail&nbsp;you&nbsp;a&nbsp;copy&nbsp;immediately.</font></div></li>
+<li><div class="src-line"><a name="a12"></a><font color="#009999">&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a13"></a><font color="#009999">&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@category</font></strong><font color="#009999">&nbsp;&nbsp;Duckk</font></div></li>
+<li><div class="src-line"><a name="a14"></a><font color="#009999">&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@package</font></strong><font color="#009999">&nbsp;&nbsp;&nbsp;SimpleHTTP</font></div></li>
+<li><div class="src-line"><a name="a15"></a><font color="#009999">&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@author</font></strong><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;Arin&nbsp;Sarkissian&nbsp;&lt;arin@rspot.net&gt;</font></div></li>
+<li><div class="src-line"><a name="a16"></a><font color="#009999">&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@copyright</font></strong><font color="#009999">&nbsp;2009&nbsp;Arin&nbsp;Sarkissian</font></div></li>
+<li><div class="src-line"><a name="a17"></a><font color="#009999">&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@license</font></strong><font color="#009999">&nbsp;&nbsp;&nbsp;http://www.opensource.org/licenses/bsd-license.php&nbsp;New&nbsp;BSD&nbsp;License</font></div></li>
+<li><div class="src-line"><a name="a18"></a><font color="#009999">&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@version</font></strong><font color="#009999">&nbsp;&nbsp;&nbsp;CVS:&nbsp;$Id$</font></div></li>
+<li><div class="src-line"><a name="a19"></a><font color="#009999">&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a20"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a21"></a><font color="blue">require_once&nbsp;</font><font color="#66cccc">'Duckk/SimpleHTTP/Exception.php'</font><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a22"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a23"></a><font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a24"></a><font color="#009999">&nbsp;*&nbsp;A&nbsp;simple-to-use&nbsp;class&nbsp;for&nbsp;basic&nbsp;HTTP&nbsp;communication&nbsp;over&nbsp;PHP's</font></div></li>
+<li><div class="src-line"><a name="a25"></a><font color="#009999">&nbsp;*&nbsp;socket&nbsp;operations/function</font></div></li>
+<li><div class="src-line"><a name="a26"></a><font color="#009999">&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a27"></a><font color="#009999">&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@category</font></strong><font color="#009999">&nbsp;&nbsp;Duckk</font></div></li>
+<li><div class="src-line"><a name="a28"></a><font color="#009999">&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@package</font></strong><font color="#009999">&nbsp;&nbsp;&nbsp;SimpleHTTP</font></div></li>
+<li><div class="src-line"><a name="a29"></a><font color="#009999">&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@author</font></strong><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;Arin&nbsp;Sarkissian&nbsp;&lt;arin@rspot.net&gt;</font></div></li>
+<li><div class="src-line"><a name="a30"></a><font color="#009999">&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@copyright</font></strong><font color="#009999">&nbsp;2009&nbsp;Arin&nbsp;Sarkissian</font></div></li>
+<li><div class="src-line"><a name="a31"></a><font color="#009999">&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a32"></a><font color="blue">class&nbsp;</font><a href="../SimpleHTTP/Duckk_SimpleHTTP.html">Duckk_SimpleHTTP</a></div></li>
+<li><div class="src-line"><a name="a33"></a><strong>{</strong></div></li>
+<li><div class="src-line"><a name="a34"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a35"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Host&nbsp;to&nbsp;connect&nbsp;to</font></div></li>
+<li><div class="src-line"><a name="a36"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a37"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@var&nbsp;</font></strong><em>string&nbsp;</em></div></li>
+<li><div class="src-line"><a name="a38"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a39"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">private&nbsp;</font><strong>$host&nbsp;</strong>=&nbsp;null<strong>;</strong></div></li>
+<li><div class="src-line"><a name="a40"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a41"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a42"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Port&nbsp;to&nbsp;connect&nbsp;to</font></div></li>
+<li><div class="src-line"><a name="a43"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a44"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@var&nbsp;</font></strong><em>int&nbsp;</em></div></li>
+<li><div class="src-line"><a name="a45"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a46"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">private&nbsp;</font><strong>$port&nbsp;</strong>=&nbsp;null<strong>;</strong></div></li>
+<li><div class="src-line"><a name="a47"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a48"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a49"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;The&nbsp;socket&nbsp;for&nbsp;our&nbsp;connection</font></div></li>
+<li><div class="src-line"><a name="a50"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a51"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@var&nbsp;</font></strong><em>resource&nbsp;</em></div></li>
+<li><div class="src-line"><a name="a52"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a53"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">private&nbsp;</font><strong>$socket&nbsp;</strong>=&nbsp;null<strong>;</strong></div></li>
+<li><div class="src-line"><a name="a54"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a55"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a56"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;#&nbsp;of&nbsp;secs&nbsp;as&nbsp;the&nbsp;connection&nbsp;timeout</font></div></li>
+<li><div class="src-line"><a name="a57"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a58"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@var&nbsp;</font></strong><em>int&nbsp;</em></div></li>
+<li><div class="src-line"><a name="a59"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a60"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">private&nbsp;</font><strong>$timeoutConnect&nbsp;</strong>=&nbsp;null<strong>;</strong></div></li>
+<li><div class="src-line"><a name="a61"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a62"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a63"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Timeout&nbsp;for&nbsp;reading&nbsp;&amp;&nbsp;writing&nbsp;to&nbsp;the&nbsp;socket</font></div></li>
+<li><div class="src-line"><a name="a64"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a65"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@var&nbsp;</font></strong><em>array&nbsp;</em></div></li>
+<li><div class="src-line"><a name="a66"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a67"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">private&nbsp;</font><strong>$timeoutStream&nbsp;</strong>=&nbsp;array<strong>(</strong><font color="#66cccc">'sec'&nbsp;</font>=&gt;&nbsp;60<strong>,&nbsp;</strong><font color="#66cccc">'ms'&nbsp;</font>=&gt;&nbsp;0<strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a68"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a69"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a70"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;We&nbsp;connected&nbsp;yet?</font></div></li>
+<li><div class="src-line"><a name="a71"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a72"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@var&nbsp;</font></strong><em>bool&nbsp;</em></div></li>
+<li><div class="src-line"><a name="a73"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a74"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">private&nbsp;</font><strong>$connected&nbsp;</strong>=&nbsp;false<strong>;</strong></div></li>
+<li><div class="src-line"><a name="a75"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a76"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a77"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;The&nbsp;request&nbsp;headers</font></div></li>
+<li><div class="src-line"><a name="a78"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a79"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@var&nbsp;</font></strong><em>array&nbsp;</em></div></li>
+<li><div class="src-line"><a name="a80"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a81"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">private&nbsp;</font><strong>$headers&nbsp;</strong>=&nbsp;array<strong>(</strong><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a82"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a83"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a84"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;HTTP&nbsp;method&nbsp;for&nbsp;the&nbsp;request</font></div></li>
+<li><div class="src-line"><a name="a85"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a86"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@var&nbsp;</font></strong><em>float&nbsp;</em></div></li>
+<li><div class="src-line"><a name="a87"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a88"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">private&nbsp;</font><strong>$httpMethod&nbsp;</strong>=&nbsp;self<strong>::</strong>HTTP_METHOD_GET<strong>;</strong></div></li>
+<li><div class="src-line"><a name="a89"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a90"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a91"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;HTTP&nbsp;version&nbsp;for&nbsp;the&nbsp;request</font></div></li>
+<li><div class="src-line"><a name="a92"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a93"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@var&nbsp;</font></strong><em>float&nbsp;</em></div></li>
+<li><div class="src-line"><a name="a94"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a95"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">private&nbsp;</font><strong>$httpVersion&nbsp;</strong>=&nbsp;self<strong>::</strong>HTTP_VERSION_1_1<strong>;</strong></div></li>
+<li><div class="src-line"><a name="a96"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a97"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a98"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Path&nbsp;for&nbsp;the&nbsp;request&nbsp;-&nbsp;shoudla&nbsp;called&nbsp;it&nbsp;URI</font></div></li>
+<li><div class="src-line"><a name="a99"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a100"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@var&nbsp;</font></strong><em>string&nbsp;</em></div></li>
+<li><div class="src-line"><a name="a101"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a102"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">private&nbsp;</font><strong>$path&nbsp;</strong>=&nbsp;<font color="#66cccc">'/'</font><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a103"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a104"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a105"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Response&nbsp;headers&nbsp;from&nbsp;the&nbsp;server</font></div></li>
+<li><div class="src-line"><a name="a106"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a107"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@var&nbsp;</font></strong><em>array&nbsp;</em></div></li>
+<li><div class="src-line"><a name="a108"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a109"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">private&nbsp;</font><strong>$respHeaders&nbsp;</strong>=&nbsp;array<strong>(</strong><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a110"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a111"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a112"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;The&nbsp;body&nbsp;of&nbsp;the&nbsp;response</font></div></li>
+<li><div class="src-line"><a name="a113"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a114"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@var&nbsp;</font></strong><em>string&nbsp;</em></div></li>
+<li><div class="src-line"><a name="a115"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a116"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">private&nbsp;</font><strong>$respBody&nbsp;</strong>=&nbsp;null<strong>;</strong></div></li>
+<li><div class="src-line"><a name="a117"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a118"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a119"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;The&nbsp;raw,&nbsp;unparsed,&nbsp;response&nbsp;from&nbsp;the&nbsp;server</font></div></li>
+<li><div class="src-line"><a name="a120"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a121"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@var&nbsp;</font></strong><em>string&nbsp;</em></div></li>
+<li><div class="src-line"><a name="a122"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a123"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">private&nbsp;</font><strong>$rawResponse&nbsp;</strong>=&nbsp;null<strong>;</strong></div></li>
+<li><div class="src-line"><a name="a124"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a125"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a126"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;The&nbsp;raw&nbsp;request&nbsp;sent&nbsp;to&nbsp;the&nbsp;server</font></div></li>
+<li><div class="src-line"><a name="a127"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a128"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@var&nbsp;</font></strong><em>string&nbsp;</em></div></li>
+<li><div class="src-line"><a name="a129"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a130"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">private&nbsp;</font><strong>$rawResquest&nbsp;</strong>=&nbsp;null<strong>;</strong></div></li>
+<li><div class="src-line"><a name="a131"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a132"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a133"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;The&nbsp;HTTP&nbsp;status&nbsp;code&nbsp;of&nbsp;the&nbsp;server&nbsp;response</font></div></li>
+<li><div class="src-line"><a name="a134"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a135"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@var&nbsp;</font></strong><em>int&nbsp;</em></div></li>
+<li><div class="src-line"><a name="a136"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a137"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">private&nbsp;</font><strong>$respStatus&nbsp;</strong>=&nbsp;null<strong>;</strong></div></li>
+<li><div class="src-line"><a name="a138"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a139"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a140"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Is&nbsp;this&nbsp;class&nbsp;in&nbsp;debug&nbsp;mode?</font></div></li>
+<li><div class="src-line"><a name="a141"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a142"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@var&nbsp;</font></strong><em>bool&nbsp;</em></div></li>
+<li><div class="src-line"><a name="a143"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a144"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">private&nbsp;</font><strong>$isDebug&nbsp;</strong>=&nbsp;false<strong>;</strong></div></li>
+<li><div class="src-line"><a name="a145"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a146"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a147"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;HTTP&nbsp;versions</font></div></li>
+<li><div class="src-line"><a name="a148"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a149"></a>&nbsp;&nbsp;&nbsp;&nbsp;const&nbsp;HTTP_VERSION_1_0&nbsp;=&nbsp;1.0<strong>;</strong></div></li>
+<li><div class="src-line"><a name="a150"></a>&nbsp;&nbsp;&nbsp;&nbsp;const&nbsp;HTTP_VERSION_1_1&nbsp;=&nbsp;1.1<strong>;</strong></div></li>
+<li><div class="src-line"><a name="a151"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a152"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a153"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;HTTP&nbsp;methods</font></div></li>
+<li><div class="src-line"><a name="a154"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a155"></a>&nbsp;&nbsp;&nbsp;&nbsp;const&nbsp;HTTP_METHOD_GET&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<font color="#66cccc">'GET'</font><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a156"></a>&nbsp;&nbsp;&nbsp;&nbsp;const&nbsp;HTTP_METHOD_PUT&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<font color="#66cccc">'PUT'</font><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a157"></a>&nbsp;&nbsp;&nbsp;&nbsp;const&nbsp;HTTP_METHOD_POST&nbsp;&nbsp;&nbsp;=&nbsp;<font color="#66cccc">'POST'</font><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a158"></a>&nbsp;&nbsp;&nbsp;&nbsp;const&nbsp;HTTP_METHOD_DELETE&nbsp;=&nbsp;<font color="#66cccc">'DELETE'</font><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a159"></a>&nbsp;&nbsp;&nbsp;&nbsp;const&nbsp;HTTP_METHOD_HEAD&nbsp;&nbsp;&nbsp;=&nbsp;<font color="#66cccc">'HEAD'</font><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a160"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a161"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a162"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Connection&nbsp;defaults</font></div></li>
+<li><div class="src-line"><a name="a163"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a164"></a>&nbsp;&nbsp;&nbsp;&nbsp;const&nbsp;DEFAULT_PORT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;80<strong>;</strong></div></li>
+<li><div class="src-line"><a name="a165"></a>&nbsp;&nbsp;&nbsp;&nbsp;const&nbsp;DEFAULT_KEEPALIVE_TIMEOUT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;50<strong>;</strong></div></li>
+<li><div class="src-line"><a name="a166"></a>&nbsp;&nbsp;&nbsp;&nbsp;const&nbsp;DEFAULT_KEEPALIVE_CONNECTIONS&nbsp;=&nbsp;100<strong>;</strong></div></li>
+<li><div class="src-line"><a name="a167"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a168"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a169"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Constructor</font></div></li>
+<li><div class="src-line"><a name="a170"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a171"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@param&nbsp;</font></strong><em>string&nbsp;</em><strong>$host&nbsp;</strong><font color="#009999">The&nbsp;http&nbsp;host</font></div></li>
+<li><div class="src-line"><a name="a172"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@param&nbsp;</font></strong><em>int&nbsp;</em><font color="#009999">&nbsp;&nbsp;&nbsp;</font><strong>$port&nbsp;</strong><font color="#009999">The&nbsp;port&nbsp;to&nbsp;connect&nbsp;to</font></div></li>
+<li><div class="src-line"><a name="a173"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a174"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">public&nbsp;</font><font color="blue">function&nbsp;</font><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#method__construct">__construct</a><strong>(</strong><strong>$host</strong><strong>,&nbsp;</strong><strong>$port&nbsp;</strong>=&nbsp;self<strong>::</strong>DEFAULT_PORT<strong>)</strong></div></li>
+<li><div class="src-line"><a name="a175"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>{</strong></div></li>
+<li><div class="src-line"><a name="a176"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong><strong>-&gt;</strong><strong>host&nbsp;</strong>=&nbsp;<strong>$host</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a177"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong><strong>-&gt;</strong><strong>port&nbsp;</strong>=&nbsp;<strong>$port</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a178"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a179"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong><strong>-&gt;</strong><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodaddHeader">addHeader</a><strong>(</strong><font color="#66cccc">'User-Agent'</font><strong>,&nbsp;</strong><font color="#66cccc">'PHP:&nbsp;'&nbsp;</font>.&nbsp;<a href="http://www.php.net/get_class">get_class</a><strong>(</strong><strong>))</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a180"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong><strong>-&gt;</strong><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodaddHeader">addHeader</a><strong>(</strong><font color="#66cccc">'Host'</font><strong>,&nbsp;</strong><strong>$host</strong><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a181"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong><strong>-&gt;</strong><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodaddHeader">addHeader</a><strong>(</strong><font color="#66cccc">'Connection'</font><strong>,&nbsp;</strong><font color="#66cccc">'close'</font><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a182"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></div></li>
+<li><div class="src-line"><a name="a183"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a184"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a185"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Destructor</font></div></li>
+<li><div class="src-line"><a name="a186"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a187"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Close&nbsp;the&nbsp;connection</font></div></li>
+<li><div class="src-line"><a name="a188"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a189"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">public&nbsp;</font><font color="blue">function&nbsp;</font><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#method__destruct">__destruct</a><strong>(</strong><strong>)</strong></div></li>
+<li><div class="src-line"><a name="a190"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>{</strong></div></li>
+<li><div class="src-line"><a name="a191"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong><strong>-&gt;</strong><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodclose">close</a><strong>(</strong><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a192"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></div></li>
+<li><div class="src-line"><a name="a193"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a194"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a195"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Run&nbsp;an&nbsp;HTTP&nbsp;GET</font></div></li>
+<li><div class="src-line"><a name="a196"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a197"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@param&nbsp;</font></strong><em>string&nbsp;</em><strong>$path&nbsp;</strong><font color="#009999">The&nbsp;path&nbsp;to&nbsp;request</font></div></li>
+<li><div class="src-line"><a name="a198"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@param&nbsp;</font></strong><em>string&nbsp;</em><strong>$body&nbsp;</strong><font color="#009999">The&nbsp;body&nbsp;of&nbsp;the&nbsp;request</font></div></li>
+<li><div class="src-line"><a name="a199"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a200"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@return&nbsp;</font></strong><em>void&nbsp;</em></div></li>
+<li><div class="src-line"><a name="a201"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a202"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">public&nbsp;</font><font color="blue">function&nbsp;</font><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodget">get</a><strong>(</strong><strong>$path</strong><strong>,&nbsp;</strong><strong>$body&nbsp;</strong>=&nbsp;null<strong>)</strong></div></li>
+<li><div class="src-line"><a name="a203"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>{</strong></div></li>
+<li><div class="src-line"><a name="a204"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">return&nbsp;</font><strong>$this</strong><strong>-&gt;</strong><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methoddoHttp">doHttp</a><strong>(</strong>self<strong>::</strong>HTTP_METHOD_GET<strong>,&nbsp;</strong><strong>$path</strong><strong>,&nbsp;</strong><strong>$body</strong><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a205"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></div></li>
+<li><div class="src-line"><a name="a206"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a207"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a208"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Run&nbsp;an&nbsp;HTTP&nbsp;POST</font></div></li>
+<li><div class="src-line"><a name="a209"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a210"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@param&nbsp;</font></strong><em>string&nbsp;</em><strong>$path&nbsp;</strong><font color="#009999">The&nbsp;path&nbsp;to&nbsp;post&nbsp;to</font></div></li>
+<li><div class="src-line"><a name="a211"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@param&nbsp;</font></strong><em>string&nbsp;</em><strong>$body&nbsp;</strong><font color="#009999">The&nbsp;body&nbsp;of&nbsp;the&nbsp;POST</font></div></li>
+<li><div class="src-line"><a name="a212"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a213"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@return&nbsp;</font></strong><em>void&nbsp;</em></div></li>
+<li><div class="src-line"><a name="a214"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a215"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">public&nbsp;</font><font color="blue">function&nbsp;</font><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodpost">post</a><strong>(</strong><strong>$path</strong><strong>,&nbsp;</strong><strong>$body&nbsp;</strong>=&nbsp;null<strong>)</strong></div></li>
+<li><div class="src-line"><a name="a216"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>{</strong></div></li>
+<li><div class="src-line"><a name="a217"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong><strong>-&gt;</strong><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodaddHeader">addHeader</a><strong>(</strong><font color="#66cccc">'Content-length'</font><strong>,&nbsp;</strong><a href="http://www.php.net/strlen">strlen</a><strong>(</strong><strong>$body</strong><strong>))</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a218"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">return&nbsp;</font><strong>$this</strong><strong>-&gt;</strong><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methoddoHttp">doHttp</a><strong>(</strong>self<strong>::</strong>HTTP_METHOD_POST<strong>,&nbsp;</strong><strong>$path</strong><strong>,&nbsp;</strong><strong>$body</strong><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a219"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></div></li>
+<li><div class="src-line"><a name="a220"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a221"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a222"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Run&nbsp;an&nbsp;HTTP&nbsp;PUT</font></div></li>
+<li><div class="src-line"><a name="a223"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a224"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@param&nbsp;</font></strong><em>string&nbsp;</em><strong>$path&nbsp;</strong><font color="#009999">The&nbsp;path&nbsp;to&nbsp;PUT&nbsp;to</font></div></li>
+<li><div class="src-line"><a name="a225"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@param&nbsp;</font></strong><em>string&nbsp;</em><strong>$body&nbsp;</strong><font color="#009999">The&nbsp;body&nbsp;of&nbsp;the&nbsp;PUT</font></div></li>
+<li><div class="src-line"><a name="a226"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a227"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@return&nbsp;</font></strong><em>void&nbsp;</em></div></li>
+<li><div class="src-line"><a name="a228"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a229"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">public&nbsp;</font><font color="blue">function&nbsp;</font><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodput">put</a><strong>(</strong><strong>$path</strong><strong>,&nbsp;</strong><strong>$body&nbsp;</strong>=&nbsp;null<strong>)</strong></div></li>
+<li><div class="src-line"><a name="a230"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>{</strong></div></li>
+<li><div class="src-line"><a name="a231"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong><strong>-&gt;</strong><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodaddHeader">addHeader</a><strong>(</strong><font color="#66cccc">'Content-length'</font><strong>,&nbsp;</strong><a href="http://www.php.net/strlen">strlen</a><strong>(</strong><strong>$body</strong><strong>))</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a232"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">return&nbsp;</font><strong>$this</strong><strong>-&gt;</strong><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methoddoHttp">doHttp</a><strong>(</strong>self<strong>::</strong>HTTP_METHOD_PUT<strong>,&nbsp;</strong><strong>$path</strong><strong>,&nbsp;</strong><strong>$body</strong><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a233"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></div></li>
+<li><div class="src-line"><a name="a234"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a235"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a236"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Run&nbsp;an&nbsp;HTTP&nbsp;DELETE</font></div></li>
+<li><div class="src-line"><a name="a237"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a238"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@param&nbsp;</font></strong><em>string&nbsp;</em><strong>$path&nbsp;</strong><font color="#009999">The&nbsp;path&nbsp;to&nbsp;DELETE</font></div></li>
+<li><div class="src-line"><a name="a239"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@param&nbsp;</font></strong><em>string&nbsp;</em><strong>$body&nbsp;</strong><font color="#009999">The&nbsp;body&nbsp;of&nbsp;the&nbsp;DELETE</font></div></li>
+<li><div class="src-line"><a name="a240"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a241"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@return&nbsp;</font></strong><em>void&nbsp;</em></div></li>
+<li><div class="src-line"><a name="a242"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a243"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">public&nbsp;</font><font color="blue">function&nbsp;</font><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methoddelete">delete</a><strong>(</strong><strong>$path</strong><strong>,&nbsp;</strong><strong>$body&nbsp;</strong>=&nbsp;null<strong>)</strong></div></li>
+<li><div class="src-line"><a name="a244"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>{</strong></div></li>
+<li><div class="src-line"><a name="a245"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">return&nbsp;</font><strong>$this</strong><strong>-&gt;</strong><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methoddoHttp">doHttp</a><strong>(</strong>self<strong>::</strong>HTTP_METHOD_DELETE<strong>,&nbsp;</strong><strong>$path</strong><strong>,&nbsp;</strong><strong>$body</strong><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a246"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></div></li>
+<li><div class="src-line"><a name="a247"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a248"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a249"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Run&nbsp;an&nbsp;HTTP&nbsp;HEAD</font></div></li>
+<li><div class="src-line"><a name="a250"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a251"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@param&nbsp;</font></strong><em>string&nbsp;</em><strong>$path&nbsp;</strong><font color="#009999">The&nbsp;path&nbsp;to&nbsp;HEAD</font></div></li>
+<li><div class="src-line"><a name="a252"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@param&nbsp;</font></strong><em>string&nbsp;</em><strong>$body&nbsp;</strong><font color="#009999">The&nbsp;body&nbsp;of&nbsp;the&nbsp;HEAD</font></div></li>
+<li><div class="src-line"><a name="a253"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a254"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@return&nbsp;</font></strong><em>void&nbsp;</em></div></li>
+<li><div class="src-line"><a name="a255"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a256"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">public&nbsp;</font><font color="blue">function&nbsp;</font><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodhead">head</a><strong>(</strong><strong>$path</strong><strong>,&nbsp;</strong><strong>$body&nbsp;</strong>=&nbsp;null<strong>)</strong></div></li>
+<li><div class="src-line"><a name="a257"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>{</strong></div></li>
+<li><div class="src-line"><a name="a258"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">return&nbsp;</font><strong>$this</strong><strong>-&gt;</strong><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methoddoHttp">doHttp</a><strong>(</strong>self<strong>::</strong>HTTP_METHOD_HEAD<strong>,&nbsp;</strong><strong>$path</strong><strong>,&nbsp;</strong><strong>$body</strong><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a259"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></div></li>
+<li><div class="src-line"><a name="a260"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a261"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a262"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Do&nbsp;the&nbsp;actually&nbsp;HTTP&nbsp;work</font></div></li>
+<li><div class="src-line"><a name="a263"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a264"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Set&nbsp;up&nbsp;a&nbsp;few&nbsp;things,&nbsp;make&nbsp;sure&nbsp;we're&nbsp;connected,&nbsp;make&nbsp;the&nbsp;request</font></div></li>
+<li><div class="src-line"><a name="a265"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&amp;&nbsp;finally&nbsp;read&nbsp;the&nbsp;response&nbsp;and&nbsp;save&nbsp;it</font></div></li>
+<li><div class="src-line"><a name="a266"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a267"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@param&nbsp;</font></strong><em>string&nbsp;</em><strong>$method&nbsp;</strong><font color="#009999">An&nbsp;HTTP&nbsp;method&nbsp;the&nbsp;server&nbsp;knows&nbsp;how&nbsp;to&nbsp;handle</font></div></li>
+<li><div class="src-line"><a name="a268"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@param&nbsp;</font></strong><em>string&nbsp;</em><strong>$path&nbsp;</strong><font color="#009999">&nbsp;&nbsp;The&nbsp;path</font></div></li>
+<li><div class="src-line"><a name="a269"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@param&nbsp;</font></strong><em>string&nbsp;</em><strong>$body&nbsp;</strong><font color="#009999">&nbsp;&nbsp;The&nbsp;body&nbsp;of&nbsp;the&nbsp;HTTP&nbsp;request</font></div></li>
+<li><div class="src-line"><a name="a270"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a271"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">protected&nbsp;</font><font color="blue">function&nbsp;</font><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methoddoHttp">doHttp</a><strong>(</strong><strong>$method</strong><strong>,&nbsp;</strong><strong>$path</strong><strong>,&nbsp;</strong><strong>$body&nbsp;</strong>=&nbsp;null<strong>)</strong></div></li>
+<li><div class="src-line"><a name="a272"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>{</strong></div></li>
+<li><div class="src-line"><a name="a273"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong><strong>-&gt;</strong><strong>httpMethod&nbsp;</strong>=&nbsp;<strong>$method</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a274"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong><strong>-&gt;</strong><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodsetPath">setPath</a><strong>(</strong><strong>$path</strong><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a275"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong><strong>-&gt;</strong>write<strong>(</strong><strong>$body</strong><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a276"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong><strong>-&gt;</strong><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodread">read</a><strong>(</strong><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a277"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></div></li>
+<li><div class="src-line"><a name="a278"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a279"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a280"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;The&nbsp;the&nbsp;HTTP&nbsp;request&nbsp;as&nbsp;a&nbsp;string</font></div></li>
+<li><div class="src-line"><a name="a281"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a282"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">public&nbsp;</font><font color="blue">function&nbsp;</font><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodgetRequest">getRequest</a><strong>(</strong><strong>)</strong></div></li>
+<li><div class="src-line"><a name="a283"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>{</strong></div></li>
+<li><div class="src-line"><a name="a284"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">return&nbsp;</font><strong>$this</strong><strong>-&gt;</strong><strong>rawResquest</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a285"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></div></li>
+<li><div class="src-line"><a name="a286"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a287"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a288"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;The&nbsp;the&nbsp;HTTP&nbsp;status&nbsp;of&nbsp;the&nbsp;last&nbsp;request</font></div></li>
+<li><div class="src-line"><a name="a289"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a290"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@return&nbsp;</font></strong><em>int&nbsp;</em><font color="#009999">The&nbsp;last&nbsp;HTTP&nbsp;status&nbsp;code</font></div></li>
+<li><div class="src-line"><a name="a291"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a292"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">public&nbsp;</font><font color="blue">function&nbsp;</font><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodgetResponseStatus">getResponseStatus</a><strong>(</strong><strong>)</strong></div></li>
+<li><div class="src-line"><a name="a293"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>{</strong></div></li>
+<li><div class="src-line"><a name="a294"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">return&nbsp;</font>(int)&nbsp;<strong>$this</strong><strong>-&gt;</strong><strong>respStatus</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a295"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></div></li>
+<li><div class="src-line"><a name="a296"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a297"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a298"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;The&nbsp;the&nbsp;HTTP&nbsp;headers&nbsp;from&nbsp;the&nbsp;last&nbsp;response</font></div></li>
+<li><div class="src-line"><a name="a299"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a300"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@return&nbsp;</font></strong><em>array&nbsp;</em><font color="#009999">The&nbsp;headers&nbsp;as&nbsp;an&nbsp;associative&nbsp;array</font></div></li>
+<li><div class="src-line"><a name="a301"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a302"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">public&nbsp;</font><font color="blue">function&nbsp;</font><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodgetResponseHeaders">getResponseHeaders</a><strong>(</strong><strong>)</strong></div></li>
+<li><div class="src-line"><a name="a303"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>{</strong></div></li>
+<li><div class="src-line"><a name="a304"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">return&nbsp;</font><strong>$this</strong><strong>-&gt;</strong><strong>respHeaders</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a305"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></div></li>
+<li><div class="src-line"><a name="a306"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a307"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a308"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Get&nbsp;the&nbsp;body&nbsp;of&nbsp;the&nbsp;last&nbsp;HTTP&nbsp;response</font></div></li>
+<li><div class="src-line"><a name="a309"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a310"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@return&nbsp;</font></strong><em>string&nbsp;</em></div></li>
+<li><div class="src-line"><a name="a311"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a312"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">public&nbsp;</font><font color="blue">function&nbsp;</font><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodgetResponseBody">getResponseBody</a><strong>(</strong><strong>)</strong></div></li>
+<li><div class="src-line"><a name="a313"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>{</strong></div></li>
+<li><div class="src-line"><a name="a314"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">return&nbsp;</font><strong>$this</strong><strong>-&gt;</strong><strong>respBody</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a315"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></div></li>
+<li><div class="src-line"><a name="a316"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a317"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a318"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Get&nbsp;the&nbsp;last&nbsp;HTTP&nbsp;response&nbsp;as&nbsp;a&nbsp;string</font></div></li>
+<li><div class="src-line"><a name="a319"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a320"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;The&nbsp;headers&nbsp;and&nbsp;body&nbsp;are&nbsp;includes&nbsp;as&nbsp;a&nbsp;big&nbsp;string...&nbsp;unparsed</font></div></li>
+<li><div class="src-line"><a name="a321"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a322"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@return&nbsp;</font></strong><em>string&nbsp;</em></div></li>
+<li><div class="src-line"><a name="a323"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a324"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">public&nbsp;</font><font color="blue">function&nbsp;</font><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodgetRawResponse">getRawResponse</a><strong>(</strong><strong>)</strong></div></li>
+<li><div class="src-line"><a name="a325"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>{</strong></div></li>
+<li><div class="src-line"><a name="a326"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">return&nbsp;</font><strong>$this</strong><strong>-&gt;</strong><strong>rawResponse</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a327"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></div></li>
+<li><div class="src-line"><a name="a328"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a329"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a330"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Add&nbsp;a&nbsp;header&nbsp;for&nbsp;the&nbsp;next&nbsp;HTTP&nbsp;request</font></div></li>
+<li><div class="src-line"><a name="a331"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a332"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;example:&nbsp;$socket-&gt;addHeader('Connection',&nbsp;'close');</font></div></li>
+<li><div class="src-line"><a name="a333"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a334"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@param&nbsp;</font></strong><em>string&nbsp;</em><strong>$name&nbsp;</strong><font color="#009999">&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;header</font></div></li>
+<li><div class="src-line"><a name="a335"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@param&nbsp;</font></strong><em>string&nbsp;</em><strong>$value&nbsp;</strong><font color="#009999">The&nbsp;value&nbsp;of&nbsp;the&nbsp;header</font></div></li>
+<li><div class="src-line"><a name="a336"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a337"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">public&nbsp;</font><font color="blue">function&nbsp;</font><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodaddHeader">addHeader</a><strong>(</strong><strong>$name</strong><strong>,&nbsp;</strong><strong>$value</strong><strong>)</strong></div></li>
+<li><div class="src-line"><a name="a338"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>{</strong></div></li>
+<li><div class="src-line"><a name="a339"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong><strong>-&gt;</strong><strong>headers</strong><strong>[</strong><strong>$name</strong><strong>]&nbsp;</strong>=&nbsp;<strong>$value</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a340"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></div></li>
+<li><div class="src-line"><a name="a341"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a342"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a343"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Remove&nbsp;a&nbsp;header&nbsp;for&nbsp;the&nbsp;next&nbsp;HTTP&nbsp;request</font></div></li>
+<li><div class="src-line"><a name="a344"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a345"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;example:&nbsp;$socket-&gt;removeeader('Connection',&nbsp;'close');</font></div></li>
+<li><div class="src-line"><a name="a346"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a347"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@param&nbsp;</font></strong><em>string&nbsp;</em><strong>$nameThe&nbsp;</strong><font color="#009999">name&nbsp;of&nbsp;the&nbsp;header&nbsp;you&nbsp;want&nbsp;removed</font></div></li>
+<li><div class="src-line"><a name="a348"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a349"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">public&nbsp;</font><font color="blue">function&nbsp;</font><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodremoveHeader">removeHeader</a><strong>(</strong><strong>$name</strong><strong>)</strong></div></li>
+<li><div class="src-line"><a name="a350"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>{</strong></div></li>
+<li><div class="src-line"><a name="a351"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">if&nbsp;</font><strong>(</strong>isset<strong>(</strong><strong>$this</strong><strong>-&gt;</strong><strong>headers</strong><strong>[</strong><strong>$name</strong><strong>]</strong><strong>))&nbsp;</strong><strong>{</strong></div></li>
+<li><div class="src-line"><a name="a352"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unset<strong>(</strong><strong>$this</strong><strong>-&gt;</strong><strong>headers</strong><strong>[</strong><strong>$name</strong><strong>]</strong><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a353"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></div></li>
+<li><div class="src-line"><a name="a354"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></div></li>
+<li><div class="src-line"><a name="a355"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a356"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a357"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Set&nbsp;the&nbsp;path&nbsp;to&nbsp;make&nbsp;the&nbsp;HTTP&nbsp;request&nbsp;to</font></div></li>
+<li><div class="src-line"><a name="a358"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a359"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">protected&nbsp;</font><font color="blue">function&nbsp;</font><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodsetPath">setPath</a><strong>(</strong><strong>$path</strong><strong>)</strong></div></li>
+<li><div class="src-line"><a name="a360"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>{</strong></div></li>
+<li><div class="src-line"><a name="a361"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong><strong>-&gt;</strong><strong>path&nbsp;</strong>=&nbsp;<strong>$path</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a362"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></div></li>
+<li><div class="src-line"><a name="a363"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a364"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a365"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Set&nbsp;the&nbsp;HTTP&nbsp;version&nbsp;you&nbsp;want&nbsp;to&nbsp;use</font></div></li>
+<li><div class="src-line"><a name="a366"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a367"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Should&nbsp;be&nbsp;self::HTTP_VERSION_1_1&nbsp;or&nbsp;self::HTTP_VERSION_1_0</font></div></li>
+<li><div class="src-line"><a name="a368"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a369"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">public&nbsp;</font><font color="blue">function&nbsp;</font><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodsetHttpVersion">setHttpVersion</a><strong>(</strong><strong>$httpVersion</strong><strong>)</strong></div></li>
+<li><div class="src-line"><a name="a370"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>{</strong></div></li>
+<li><div class="src-line"><a name="a371"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong><strong>-&gt;</strong><strong>httpVersion&nbsp;</strong>=&nbsp;<strong>$httpVersion</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a372"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></div></li>
+<li><div class="src-line"><a name="a373"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a374"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a375"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Set&nbsp;the&nbsp;method&nbsp;to&nbsp;use&nbsp;for&nbsp;the&nbsp;next&nbsp;HTTP&nbsp;request</font></div></li>
+<li><div class="src-line"><a name="a376"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a377"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;see:&nbsp;self::HTTP_METHOD_GET,&nbsp;self::HTTP_METHOD_POST&nbsp;self::HTTP_METHOD_PUT</font></div></li>
+<li><div class="src-line"><a name="a378"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;self::HTTP_METHOD_DELETE,&nbsp;self::HTTP_METHOD_HEAD</font></div></li>
+<li><div class="src-line"><a name="a379"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a380"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">public&nbsp;</font><font color="blue">function&nbsp;</font><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodsetMethod">setMethod</a><strong>(</strong><strong>$httpMethod&nbsp;</strong>=&nbsp;self<strong>::</strong>HTTP_METHOD_GET<strong>)</strong></div></li>
+<li><div class="src-line"><a name="a381"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>{</strong></div></li>
+<li><div class="src-line"><a name="a382"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong><strong>-&gt;</strong><strong>httpMethod&nbsp;</strong>=&nbsp;<strong>$httpMethod</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a383"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></div></li>
+<li><div class="src-line"><a name="a384"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a385"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a386"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Set&nbsp;the&nbsp;value&nbsp;of&nbsp;the&nbsp;Keep-Alive&nbsp;request&nbsp;header</font></div></li>
+<li><div class="src-line"><a name="a387"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a388"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;The&nbsp;Connection&nbsp;header&nbsp;will&nbsp;automatically&nbsp;be&nbsp;set&nbsp;to&nbsp;Keep-Alive.</font></div></li>
+<li><div class="src-line"><a name="a389"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;You&nbsp;should&nbsp;probably&nbsp;make&nbsp;sure&nbsp;you're&nbsp;using&nbsp;HTTP&nbsp;1.1</font></div></li>
+<li><div class="src-line"><a name="a390"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a391"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;You&nbsp;can&nbsp;set&nbsp;an&nbsp;arbitrary&nbsp;value&nbsp;for&nbsp;the&nbsp;Keep-Alive&nbsp;header&nbsp;by&nbsp;setting</font></div></li>
+<li><div class="src-line"><a name="a392"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;$timeout&nbsp;to&nbsp;whatever&nbsp;you&nbsp;want&nbsp;and&nbsp;$maxConnections&nbsp;to&nbsp;null.&nbsp;This&nbsp;will&nbsp;let</font></div></li>
+<li><div class="src-line"><a name="a393"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;you&nbsp;do&nbsp;something&nbsp;like&nbsp;Keep-Alive:&nbsp;400&nbsp;or&nbsp;Keep-Alive:&nbsp;RandomShit=9,&nbsp;foo=bar</font></div></li>
+<li><div class="src-line"><a name="a394"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a395"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;To&nbsp;set&nbsp;a&nbsp;Keep-Alive&nbsp;header&nbsp;with&nbsp;Keep-Alive:&nbsp;timeout=200,&nbsp;max=6</font></div></li>
+<li><div class="src-line"><a name="a396"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;then&nbsp;pass&nbsp;in&nbsp;int's&nbsp;for&nbsp;both&nbsp;$timeout&nbsp;and&nbsp;$maxConnections</font></div></li>
+<li><div class="src-line"><a name="a397"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a398"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@param&nbsp;</font></strong><em>int&nbsp;</em><strong>$keepAliveValue&nbsp;</strong><font color="#009999">The&nbsp;value&nbsp;for&nbsp;the&nbsp;Keep-Alive&nbsp;request&nbsp;header</font></div></li>
+<li><div class="src-line"><a name="a399"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a400"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">public&nbsp;</font><font color="blue">function&nbsp;</font><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodsetKeepAvlive">setKeepAvlive</a><strong>(</strong><strong>$timeout&nbsp;</strong>=&nbsp;self<strong>::</strong>DEFAULT_KEEPALIVE_TIMEOUT<strong>,</strong></div></li>
+<li><div class="src-line"><a name="a401"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$maxConnections&nbsp;</strong>=&nbsp;self<strong>::</strong>DEFAULT_KEEPALIVE_CONNECTIONS<strong>)</strong></div></li>
+<li><div class="src-line"><a name="a402"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>{</strong></div></li>
+<li><div class="src-line"><a name="a403"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong><strong>-&gt;</strong><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodaddHeader">addHeader</a><strong>(</strong><font color="#66cccc">'Connection'</font><strong>,&nbsp;</strong><font color="#66cccc">'Keep-Alive'</font><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a404"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a405"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">if&nbsp;</font><strong>(</strong><strong>$maxConnections&nbsp;</strong>===&nbsp;null<strong>)&nbsp;</strong><strong>{</strong></div></li>
+<li><div class="src-line"><a name="a406"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong><strong>-&gt;</strong><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodaddHeader">addHeader</a><strong>(</strong><font color="#66cccc">'Keep-Alive'</font><strong>,&nbsp;</strong><strong>$timeout</strong><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a407"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>}&nbsp;</strong>else&nbsp;<strong>{</strong></div></li>
+<li><div class="src-line"><a name="a408"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong><strong>-&gt;</strong><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodaddHeader">addHeader</a><strong>(</strong><font color="#66cccc">'Keep-Alive'</font><strong>,&nbsp;</strong><font color="#66cccc">&quot;</font><font color="#66cccc">timeout={<strong>$timeout</strong><strong>}</strong>,&nbsp;max={<strong>$maxConnections</strong><strong>}</strong></font><font color="#66cccc">&quot;</font><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a409"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></div></li>
+<li><div class="src-line"><a name="a410"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></div></li>
+<li><div class="src-line"><a name="a411"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a412"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a413"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Set&nbsp;the&nbsp;timeout&nbsp;for&nbsp;the&nbsp;socket&nbsp;connection</font></div></li>
+<li><div class="src-line"><a name="a414"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a415"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@param&nbsp;</font></strong><em>int&nbsp;</em><strong>$sec&nbsp;</strong><font color="#009999">The&nbsp;number&nbsp;of&nbsp;seconds&nbsp;before&nbsp;the&nbsp;connection&nbsp;times&nbsp;out</font></div></li>
+<li><div class="src-line"><a name="a416"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a417"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">public&nbsp;</font><font color="blue">function&nbsp;</font><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodsetConnectTimeout">setConnectTimeout</a><strong>(</strong><strong>$sec</strong><strong>)</strong></div></li>
+<li><div class="src-line"><a name="a418"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>{</strong></div></li>
+<li><div class="src-line"><a name="a419"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong><strong>-&gt;</strong><strong>timeoutConnect&nbsp;</strong>=&nbsp;<strong>$sec</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a420"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></div></li>
+<li><div class="src-line"><a name="a421"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a422"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a423"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Set&nbsp;the&nbsp;timeout&nbsp;for&nbsp;the&nbsp;socket&nbsp;reads&nbsp;and&nbsp;writes</font></div></li>
+<li><div class="src-line"><a name="a424"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a425"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@param&nbsp;</font></strong><em>int&nbsp;</em><strong>$sec&nbsp;</strong><font color="#009999">The&nbsp;number&nbsp;of&nbsp;seconds&nbsp;before&nbsp;the&nbsp;stream&nbsp;io&nbsp;times&nbsp;out</font></div></li>
+<li><div class="src-line"><a name="a426"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@param&nbsp;</font></strong><em>int&nbsp;</em><strong>$ms&nbsp;</strong><font color="#009999">&nbsp;The&nbsp;number&nbsp;of&nbsp;ms&nbsp;before&nbsp;the&nbsp;stream&nbsp;io&nbsp;times&nbsp;out</font></div></li>
+<li><div class="src-line"><a name="a427"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a428"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">public&nbsp;</font><font color="blue">function&nbsp;</font><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodsetStreamTimeout">setStreamTimeout</a><strong>(</strong><strong>$sec</strong><strong>,&nbsp;</strong><strong>$ms&nbsp;</strong>=&nbsp;0<strong>)</strong></div></li>
+<li><div class="src-line"><a name="a429"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>{</strong></div></li>
+<li><div class="src-line"><a name="a430"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong><strong>-&gt;</strong><strong>timeoutStream&nbsp;</strong>=&nbsp;array<strong>(</strong><font color="#66cccc">'sec'&nbsp;</font>=&gt;&nbsp;<strong>$sec</strong><strong>,&nbsp;</strong><font color="#66cccc">'ms'&nbsp;</font>=&gt;&nbsp;<strong>$ms</strong><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a431"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></div></li>
+<li><div class="src-line"><a name="a432"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a433"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a434"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Set&nbsp;the&nbsp;socket&nbsp;to&nbsp;clocking&nbsp;or&nbsp;non-blocking</font></div></li>
+<li><div class="src-line"><a name="a435"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a436"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@param&nbsp;</font></strong><em>bool&nbsp;</em><strong>$block&nbsp;</strong><font color="#009999">Whether&nbsp;you&nbsp;want&nbsp;the&nbsp;socket&nbsp;to&nbsp;block&nbsp;or&nbsp;not</font></div></li>
+<li><div class="src-line"><a name="a437"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a438"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">public&nbsp;</font><font color="blue">function&nbsp;</font><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodsetNonBlocking">setNonBlocking</a><strong>(</strong><strong>$block&nbsp;</strong>=&nbsp;false<strong>)</strong></div></li>
+<li><div class="src-line"><a name="a439"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>{</strong></div></li>
+<li><div class="src-line"><a name="a440"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong><strong>-&gt;</strong><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodconnect">connect</a><strong>(</strong><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a441"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.php.net/stream_set_blocking">stream_set_blocking</a><strong>(</strong><strong>$this</strong><strong>-&gt;</strong><strong>socket</strong><strong>,&nbsp;</strong><strong>(</strong>(int)&nbsp;<strong>$block</strong><strong>))</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a442"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></div></li>
+<li><div class="src-line"><a name="a443"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a444"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a445"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Make&nbsp;the&nbsp;socket&nbsp;connection</font></div></li>
+<li><div class="src-line"><a name="a446"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a447"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;A&nbsp;tiemout&nbsp;can&nbsp;be&nbsp;specified&nbsp;by&nbsp;using&nbsp;$this-&gt;setConnectTimeout()</font></div></li>
+<li><div class="src-line"><a name="a448"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a449"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">public&nbsp;</font><font color="blue">function&nbsp;</font><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodconnect">connect</a><strong>(</strong><strong>)</strong></div></li>
+<li><div class="src-line"><a name="a450"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>{</strong></div></li>
+<li><div class="src-line"><a name="a451"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">if&nbsp;</font><strong>(</strong><strong>$this</strong><strong>-&gt;</strong><strong>connected</strong><strong>)&nbsp;</strong><strong>{</strong></div></li>
+<li><div class="src-line"><a name="a452"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">return</font><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a453"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></div></li>
+<li><div class="src-line"><a name="a454"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a455"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong><strong>-&gt;</strong><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methoddebug">debug</a><strong>(</strong><font color="#66cccc">&quot;</font><font color="#66cccc">connecting&nbsp;to&nbsp;{<strong>$this</strong></font><strong>-&gt;</strong><strong>host</strong><strong>}</strong>:{<strong>$this</strong><strong>-&gt;</strong><strong>port</strong><strong>}</font><font color="#66cccc"></strong><font color="#66cccc">"</font><strong>)</strong><strong>;</strong></font></div></li>
+<li><div class="src-line"><a name="a456"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a457"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$timeout</strong>&nbsp;=&nbsp;<strong>(</strong><strong>$this</strong></font><strong>-&gt;</strong><strong>timeoutConnect&nbsp;</strong>!==&nbsp;null<strong>)</strong></div></li>
+<li><div class="src-line"><a name="a458"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?&nbsp;<strong>$this</strong><strong>-&gt;</strong></div></li>
+<li><div class="src-line"><a name="a458"></a><strong>timeoutConnect</strong></div></li>
+<li><div class="src-line"><a name="a459"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;ini_get<strong>(</strong><font color="#66cccc">&quot;default_socket_timeout&quot;</font><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a460"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a461"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong><strong>-&gt;</strong><strong>socket&nbsp;</strong>=&nbsp;fsockopen<strong>(</strong><strong>$this</strong><strong>-&gt;</strong><strong>host</strong><strong>,&nbsp;</strong><strong>$this</strong><strong>-&gt;</strong><strong>port</strong><strong>,&nbsp;</strong><strong>$errno</strong><strong>,&nbsp;</strong><strong>$err</strong><strong>,&nbsp;</strong><strong>$timeout</strong><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a462"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a463"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">if&nbsp;</font><strong>(</strong><strong>!&nbsp;</strong><strong>$this</strong><strong>-&gt;</strong><strong>socket</strong><strong>)&nbsp;</font><font color="#66cccc"></strong><strong>{</strong></font></div></li>
+<li><div class="src-line"><a name="a464"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw&nbsp;new&nbsp;Duckk_SimpleHTTP_Exception<strong>(</strong></font></div></li>
+<li><div class="src-line"><a name="a465"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#66cccc">"</font>Could&nbsp;not&nbsp;connect&nbsp;to&nbsp;</font>{<strong>$this</strong><strong>-&gt;</strong><strong>host</strong><strong>}</strong>:{<strong>$this</strong><strong>-&gt;</strong><strong>port</strong><strong>}</strong>&nbsp;(code:&nbsp;<strong>$errno</strong>).&nbsp;Message:&nbsp;<strong>$err</font><font color="#66cccc"></strong><font color="#66cccc">"</font></font></div></li>
+<li><div class="src-line"><a name="a466"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>)</strong><strong>;</strong></font></div></li>
+<li><div class="src-line"><a name="a467"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></font></div></li>
+<li><div class="src-line"><a name="a468"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a469"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong></font><strong>-&gt;</strong><strong>connected&nbsp;</strong>=&nbsp;true<strong>;</strong></div></li>
+<li><div class="src-line"><a name="a470"></a>&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#66cccc"><strong>}</strong></font></div></li>
+<li><div class="src-line"><a name="a471"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a472"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;/**</font></div></li>
+<li><div class="src-line"><a name="a473"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Read&nbsp;from&nbsp;the&nbsp;socket&nbsp;connection</font></div></li>
+<li><div class="src-line"><a name="a474"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a475"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;We&nbsp;will&nbsp;be&nbsp;parsing&nbsp;the&nbsp;raw&nbsp;payload&nbsp;and&nbsp;splitting&nbsp;it&nbsp;into&nbsp;the&nbsp;body&nbsp;and&nbsp;headers.</font></div></li>
+<li><div class="src-line"><a name="a476"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;You&nbsp;can&nbsp;get&nbsp;to&nbsp;that&nbsp;data&nbsp;using&nbsp;$this-&gt;getResponseBody()&nbsp;and&nbsp;$this-&gt;getResponseHeaders()</font></div></li>
+<li><div class="src-line"><a name="a477"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a478"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;A&nbsp;timeout&nbsp;for&nbsp;reads&nbsp;can&nbsp;be&nbsp;specified&nbsp;by&nbsp;using&nbsp;$this-&gt;setConnectTimeout()</font></div></li>
+<li><div class="src-line"><a name="a479"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a480"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">public</font>&nbsp;<font color="blue">function</font>&nbsp;read<strong>(</strong><strong>)</strong></font></div></li>
+<li><div class="src-line"><a name="a481"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;<strong>{</strong></font></div></li>
+<li><div class="src-line"><a name="a482"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="green">//&nbsp;read&nbsp;the&nbsp;header</font></font></div></li>
+<li><div class="src-line"><a name="a483"></a></font><font color="#66cccc"><font color="green"></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$rawHeaders</strong>&nbsp;=&nbsp;<font color="#66cccc">''</font><strong>;</strong></font></div></li>
+<li><div class="src-line"><a name="a484"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while&nbsp;<strong>(</strong><strong>$b</strong>&nbsp;=&nbsp;fgets<strong>(</strong><strong>$this</strong></font><strong>-&gt;</strong><strong>socket</strong><strong>,&nbsp;</strong>8096<strong>))&nbsp;</font><font color="#66cccc"></strong><strong>{</strong></font></div></li>
+<li><div class="src-line"><a name="a485"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$rawHeaders</strong>&nbsp;.=&nbsp;<strong>$b</strong><strong>;</strong></font></div></li>
+<li><div class="src-line"><a name="a486"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">if</font>&nbsp;<strong>(</strong>trim<strong>(</strong><strong>$b</strong><strong>)</strong>&nbsp;==&nbsp;<font color="#66cccc">''</font><strong>)</strong>&nbsp;<strong>{</strong></font></div></li>
+<li><div class="src-line"><a name="a487"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$rawHeaders</strong>&nbsp;=&nbsp;rtrim<strong>(</strong><strong>$rawHeaders</strong><strong>)</strong><strong>;</strong></font></div></li>
+<li><div class="src-line"><a name="a488"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break<strong>;</strong></font></div></li>
+<li><div class="src-line"><a name="a489"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></font></div></li>
+<li><div class="src-line"><a name="a490"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></font></div></li>
+<li><div class="src-line"><a name="a491"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a492"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong></font><strong>-&gt;</strong><strong>rawResponse&nbsp;&nbsp;&nbsp;</strong>=&nbsp;</font><font color="#66cccc"><font color="#66cccc">"</font></font>{<strong>$rawHeaders</font><font color="#66cccc"></strong><strong>}</strong>\r\n\r\n<font color="#66cccc">"</font><strong>;</strong></font></div></li>
+<li><div class="src-line"><a name="a493"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$headerParts</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;explode<strong>(</strong><font color="#66cccc">&quot;\r\n&quot;</font><strong>,</strong>&nbsp;<strong>$rawHeaders</strong><strong>)</strong><strong>;</strong></font></div></li>
+<li><div class="src-line"><a name="a494"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$contentLengthKey</strong>&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;null<strong>;</strong></font></div></li>
+<li><div class="src-line"><a name="a495"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$transferEncodingKey</strong>&nbsp;=&nbsp;null<strong>;</strong></font></div></li>
+<li><div class="src-line"><a name="a496"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$connectionKey</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;null<strong>;</strong></font></div></li>
+<li><div class="src-line"><a name="a497"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a498"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">if</font>&nbsp;<strong>(</strong><strong>!</strong>&nbsp;empty<strong>(</strong><strong>$headerParts</strong><strong>))</strong>&nbsp;<strong>{</strong></font></div></li>
+<li><div class="src-line"><a name="a499"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">foreach</font>&nbsp;<strong>(</strong><strong>$headerParts</strong>&nbsp;as&nbsp;<strong>$header</strong><strong>)</strong>&nbsp;<strong>{</strong></font></div></li>
+<li><div class="src-line"><a name="a500"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">if</font>&nbsp;<strong>(</strong>preg_match<strong>(</strong><font color="#66cccc">'(^HTTP/(?P&lt;version&gt;\d+\.\d+)\s+(?P&lt;status&gt;\d+))S'</font><strong>,</strong>&nbsp;<strong>$header</strong><strong>,</strong>&nbsp;<strong>$matches</strong><strong>))</strong><strong>{</strong></font></div></li>
+<li><div class="src-line"><a name="a501"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong></font><strong>-&gt;</strong><strong>respStatus&nbsp;&nbsp;</strong>=&nbsp;(int)&nbsp;<strong>$matches</strong><strong>[</strong><font color="#66cccc">'status'</font><strong>]</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a502"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#66cccc"><strong>}</strong>&nbsp;else&nbsp;<strong>{</strong></font></div></li>
+<li><div class="src-line"><a name="a503"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">if</font>&nbsp;<strong>(</strong><strong>!</strong>&nbsp;strstr<strong>(</strong><strong>$header</strong><strong>,</strong>&nbsp;<font color="#66cccc">':'</font><strong>))</strong>&nbsp;<strong>{</strong></font></div></li>
+<li><div class="src-line"><a name="a504"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="green">//&nbsp;TODO:&nbsp;parsing&nbsp;the&nbsp;response&nbsp;is&nbsp;probably&nbsp;fucked&nbsp;up&nbsp;if&nbsp;this&nbsp;happens</font></font></div></li>
+<li><div class="src-line"><a name="a505"></a></font><font color="#66cccc"><font color="green"></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw&nbsp;new&nbsp;Duckk_SimpleHTTP_Exception<strong>(</strong></font></div></li>
+<li><div class="src-line"><a name="a506"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#66cccc">'Invalid&nbsp;header.&nbsp;Odds&nbsp;are&nbsp;it&nbsp;was&nbsp;a&nbsp;bad&nbsp;request.'</font></font></div></li>
+<li><div class="src-line"><a name="a507"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>)</strong><strong>;</strong></font></div></li>
+<li><div class="src-line"><a name="a508"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></font></div></li>
+<li><div class="src-line"><a name="a509"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a510"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list<strong>(</strong><strong>$headerName</strong><strong>,</strong>&nbsp;<strong>$headerValue</strong><strong>)</strong>&nbsp;=&nbsp;explode<strong>(</strong><font color="#66cccc">':'</font><strong>,</strong>&nbsp;<strong>$header</strong><strong>,</strong>&nbsp;2<strong>)</strong><strong>;</strong></font></div></li>
+<li><div class="src-line"><a name="a511"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong></font><strong>-&gt;</strong><strong>respHeaders</strong><strong>[</strong><strong>$headerName</strong><strong>]&nbsp;</strong>=&nbsp;trim<strong>(</strong><strong>$headerValue</strong><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a512"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$lcHeaderName&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>=&nbsp;strtolower<strong>(</strong><strong>$headerName</strong><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a513"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a514"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">if&nbsp;</font><strong>(</strong><strong>$lcHeaderName&nbsp;</strong>==&nbsp;<font color="#66cccc">'content-length'</font><strong>)&nbsp;</font><font color="#66cccc"></strong><strong>{</strong></font></div></li>
+<li><div class="src-line"><a name="a515"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$contentLengthKey</strong>&nbsp;=&nbsp;<strong>$headerName</strong><strong>;</strong></font></div></li>
+<li><div class="src-line"><a name="a516"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong>&nbsp;else&nbsp;<font color="blue">if</font>&nbsp;<strong>(</strong><strong>$lcHeaderName</strong>&nbsp;==&nbsp;<font color="#66cccc">'transfer-encoding'</font><strong>)</strong>&nbsp;<strong>{</strong></font></div></li>
+<li><div class="src-line"><a name="a517"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$transferEncodingKey</strong>&nbsp;=&nbsp;<strong>$headerName</strong><strong>;</strong></font></div></li>
+<li><div class="src-line"><a name="a518"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong>&nbsp;else&nbsp;<font color="blue">if</font>&nbsp;<strong>(</strong><strong>$lcHeaderName</strong>&nbsp;==&nbsp;<font color="#66cccc">'connection'</font><strong>)</strong>&nbsp;<strong>{</strong></font></div></li>
+<li><div class="src-line"><a name="a519"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$connectionKey</strong>&nbsp;=&nbsp;<strong>$headerName</strong><strong>;</strong></font></div></li>
+<li><div class="src-line"><a name="a520"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></font></div></li>
+<li><div class="src-line"><a name="a521"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></font></div></li>
+<li><div class="src-line"><a name="a522"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></font></div></li>
+<li><div class="src-line"><a name="a523"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a524"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong></font><strong>-&gt;</strong><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methoddebug">debug</a><strong>(</strong><strong>$this</strong><strong>-&gt;</strong><strong>respHeaders</strong><strong>)</strong><strong>;&nbsp;</strong><font color="green">//&nbsp;debug&nbsp;response&nbsp;headers</font></div></li>
+<li><div class="src-line"><a name="a525"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#66cccc"><strong>}</strong></font></div></li>
+<li><div class="src-line"><a name="a526"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a527"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">if</font>&nbsp;<strong>(</strong><strong>$transferEncodingKey</strong>&nbsp;!=&nbsp;null</font></div></li>
+<li><div class="src-line"><a name="a528"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp;&nbsp;strtolower<strong>(</strong><strong>$this</strong></font><strong>-&gt;</strong><strong>respHeaders</strong><strong>[</strong><strong>$transferEncodingKey</strong><strong>]</strong><strong>)&nbsp;</strong>==&nbsp;<font color="#66cccc">'chunked'</font><strong>)&nbsp;</font><font color="#66cccc"></strong><strong>{</strong>&nbsp;&nbsp;<font color="green">//&nbsp;read&nbsp;chunks&nbsp;???</font></font></div></li>
+<li><div class="src-line"><a name="a529"></a></font><font color="#66cccc"><font color="green"></font></font></div></li>
+<li><div class="src-line"><a name="a530"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong></font><strong>-&gt;</strong><strong>respBody&nbsp;</strong>=&nbsp;null<strong>;</strong></div></li>
+<li><div class="src-line"><a name="a531"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$bytesToRead&nbsp;&nbsp;&nbsp;&nbsp;</strong>=&nbsp;0<strong>;</strong></div></li>
+<li><div class="src-line"><a name="a532"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a533"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;do&nbsp;</font><font color="#66cccc"><strong>{</strong></font></div></li>
+<li><div class="src-line"><a name="a534"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$line</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;fgets<strong>(</strong><strong>$this</strong></font><strong>-&gt;</strong><strong>socket</strong><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a535"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong><strong>-&gt;</strong><strong>rawResponse&nbsp;</strong>.=&nbsp;<strong>$line</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a536"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$line&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>=&nbsp;rtrim<strong>(</strong><strong>$line</strong><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a537"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$matches&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>=&nbsp;array<strong>(</strong><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a538"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a539"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">if&nbsp;</font><strong>(</strong>preg_match<strong>(&nbsp;</strong><font color="#66cccc">'(^([0-9a-f]+)(?:;.*)?$)'</font><strong>,&nbsp;</strong><strong>$line</strong><strong>,&nbsp;</strong><strong>$matches</strong><strong>))&nbsp;</font><font color="#66cccc"></strong><strong>{</strong></font></div></li>
+<li><div class="src-line"><a name="a540"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$bytesToRead</strong>&nbsp;=&nbsp;hexdec<strong>(</strong><strong>$matches</strong><strong>[</strong>1<strong>]</strong><strong>)</strong><strong>;</strong></font></div></li>
+<li><div class="src-line"><a name="a541"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$bytesLeft</strong>&nbsp;&nbsp;&nbsp;=&nbsp;<strong>$bytesToRead</strong><strong>;</strong></font></div></li>
+<li><div class="src-line"><a name="a542"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a543"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while&nbsp;<strong>(</strong><strong>$bytesLeft</strong>&nbsp;>&nbsp;0<strong>)</strong>&nbsp;<strong>{</strong></font></div></li>
+<li><div class="src-line"><a name="a544"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$read</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;fread<strong>(</strong><strong>$this</strong></font><strong>-&gt;</strong><strong>socket</strong><strong>,&nbsp;</strong><strong>$bytesLeft&nbsp;</strong>+&nbsp;2<strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a545"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong><strong>-&gt;</strong><strong>respBody&nbsp;</strong>.=&nbsp;<strong>$read</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a546"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$bytesLeft&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>-=&nbsp;strlen<strong>(</strong><strong>$read</strong><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a547"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#66cccc"><strong>}</strong></font></div></li>
+<li><div class="src-line"><a name="a548"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></font></div></li>
+<li><div class="src-line"><a name="a549"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong>&nbsp;while&nbsp;<strong>(</strong><strong>$bytesToRead</strong>&nbsp;>&nbsp;0<strong>)</strong><strong>;</strong></font></div></li>
+<li><div class="src-line"><a name="a550"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong>&nbsp;else&nbsp;<font color="blue">if</font>&nbsp;<strong>(</strong><strong>$contentLengthKey</strong>&nbsp;!=&nbsp;null<strong>)</strong>&nbsp;<strong>{</strong>&nbsp;<font color="green">//&nbsp;read&nbsp;up&nbsp;to&nbsp;the&nbsp;Content-Length</font></font></div></li>
+<li><div class="src-line"><a name="a551"></a></font><font color="#66cccc"><font color="green"></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$length</strong>&nbsp;=&nbsp;(int)&nbsp;<strong>$this</strong></font><strong>-&gt;</strong><strong>respHeaders</strong><strong>[</strong><strong>$contentLengthKey</strong><strong>]</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a552"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a553"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong><strong>-&gt;</strong><strong>respBody&nbsp;</strong>=&nbsp;<strong>(</strong><strong>$length&nbsp;</strong>&gt;&nbsp;0<strong>)</strong></div></li>
+<li><div class="src-line"><a name="a554"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?&nbsp;fread<strong>(</strong><strong>$this</strong><strong>-&gt;</strong><strong>socket</strong><strong>,&nbsp;</strong><strong>$length</strong><strong>)</strong></div></li>
+<li><div class="src-line"><a name="a555"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;null<strong>;</strong></div></li>
+<li><div class="src-line"><a name="a556"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#66cccc"><strong>}</strong>&nbsp;else&nbsp;<strong>{</strong>&nbsp;<font color="green">//&nbsp;no&nbsp;Content-Length&nbsp;so&nbsp;read&nbsp;brute&nbsp;force</font></font></div></li>
+<li><div class="src-line"><a name="a557"></a></font><font color="#66cccc"><font color="green"></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong></font><strong>-&gt;</strong><strong>respBody&nbsp;</strong>=&nbsp;stream_get_contents<strong>(</strong><strong>$this</strong><strong>-&gt;</strong><strong>socket</strong><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a558"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#66cccc"><strong>}</strong></font></div></li>
+<li><div class="src-line"><a name="a559"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a560"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong></font><strong>-&gt;</strong><strong>rawResponse&nbsp;</strong>.=&nbsp;<strong>$this</strong><strong>-&gt;</strong><strong>respBody</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a561"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong><strong>-&gt;</strong><strong>respBody&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>=&nbsp;rtrim<strong>(</strong><strong>$this</strong><strong>-&gt;</strong><strong>respBody</strong><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a562"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a563"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">if&nbsp;</font><strong>(</strong><strong>!&nbsp;</strong><strong>$connectionKey&nbsp;</strong>||&nbsp;<strong>(</strong>strtolower<strong>(</strong><strong>$this</strong><strong>-&gt;</strong><strong>respHeaders</strong><strong>[</strong><strong>$connectionKey</strong><strong>]</strong><strong>)&nbsp;</strong>!=&nbsp;<font color="#66cccc">'keep-alive'</font><strong>))&nbsp;</font><font color="#66cccc"></strong><strong>{</strong></font></div></li>
+<li><div class="src-line"><a name="a564"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong></font><strong>-&gt;</strong><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methoddebug">debug</a><strong>(</strong><font color="#66cccc">'Server&nbsp;didn\'t&nbsp;send&nbsp;Connection:&nbsp;Keep-Alive.&nbsp;Closing&nbsp;connection'</font><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a565"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong><strong>-&gt;</strong><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodclose">close</a><strong>(</strong><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a566"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#66cccc"><strong>}</strong></font></div></li>
+<li><div class="src-line"><a name="a567"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></font></div></li>
+<li><div class="src-line"><a name="a568"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a569"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;/**</font></div></li>
+<li><div class="src-line"><a name="a570"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Close&nbsp;the&nbsp;socket&nbsp;and&nbsp;perform&nbsp;some&nbsp;housekeeping</font></div></li>
+<li><div class="src-line"><a name="a571"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a572"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">public</font>&nbsp;<font color="blue">function</font>&nbsp;close<strong>(</strong><strong>)</strong></font></div></li>
+<li><div class="src-line"><a name="a573"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;<strong>{</strong></font></div></li>
+<li><div class="src-line"><a name="a574"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">if</font>&nbsp;<strong>(</strong>is_resource<strong>(</strong><strong>$this</strong></font><strong>-&gt;</strong><strong>socket</strong><strong>))&nbsp;</font><font color="#66cccc"></strong><strong>{</strong></font></div></li>
+<li><div class="src-line"><a name="a575"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fclose<strong>(</strong><strong>$this</strong></font><strong>-&gt;</strong><strong>socket</strong><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a576"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#66cccc"><strong>}</strong></font></div></li>
+<li><div class="src-line"><a name="a577"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a578"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong></font><strong>-&gt;</strong><strong>connected&nbsp;</strong>=&nbsp;false<strong>;</strong></div></li>
+<li><div class="src-line"><a name="a579"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong><strong>-&gt;</strong><strong>socket&nbsp;&nbsp;&nbsp;&nbsp;</strong>=&nbsp;null<strong>;</strong></div></li>
+<li><div class="src-line"><a name="a580"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a581"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong><strong>-&gt;</strong><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methoddebug">debug</a><strong>(</strong><font color="#66cccc">'connection&nbsp;closed'</font><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a582"></a>&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#66cccc"><strong>}</strong></font></div></li>
+<li><div class="src-line"><a name="a583"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a584"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;/**</font></div></li>
+<li><div class="src-line"><a name="a585"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Write&nbsp;a&nbsp;request&nbsp;to&nbsp;the&nbsp;connection</font></div></li>
+<li><div class="src-line"><a name="a586"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a587"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@param&nbsp;string&nbsp;$body&nbsp;The&nbsp;body&nbsp;of&nbsp;the&nbsp;request&nbsp;ex:&nbsp;foo=bar&amp;bla=deezNuts</font></div></li>
+<li><div class="src-line"><a name="a588"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a589"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">private</font>&nbsp;<font color="blue">function</font>&nbsp;write<strong>(</strong><strong>$body</strong>&nbsp;=&nbsp;null<strong>)</strong></font></div></li>
+<li><div class="src-line"><a name="a590"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;<strong>{</strong></font></div></li>
+<li><div class="src-line"><a name="a591"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong></font><strong>-&gt;</strong><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodconnect">connect</a><strong>(</strong><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a592"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a593"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$writeMe&nbsp;</strong>=&nbsp;array<strong>(</font><font color="#66cccc"></strong><font color="#66cccc">"</font></font>{<strong>$this</strong><strong>-&gt;</strong><strong>httpMethod</strong><strong>}&nbsp;</strong>{<strong>$this</strong><strong>-&gt;</strong><strong>path</strong><strong>}</strong>&nbsp;HTTP/{<strong>$this</strong><strong>-&gt;</strong><strong>httpVersion</strong><strong>}</font><font color="#66cccc"></strong><font color="#66cccc">"</font><strong>)</strong><strong>;</strong></font></div></li>
+<li><div class="src-line"><a name="a594"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a595"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">foreach</font>&nbsp;<strong>(</strong><strong>$this</strong></font><strong>-&gt;</strong><strong>headers&nbsp;</strong>as&nbsp;<strong>$header&nbsp;</strong>=&gt;&nbsp;<strong>$v</strong><strong>)&nbsp;</font><font color="#66cccc"></strong><strong>{</strong></font></div></li>
+<li><div class="src-line"><a name="a596"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$writeMe</strong><strong>[</strong><strong>]</strong>&nbsp;=&nbsp;<font color="#66cccc">"</font></font>{<strong>$header</font><font color="#66cccc"></strong><strong>}</strong>:&nbsp;<strong>$v</strong><font color="#66cccc">"</font><strong>;</strong></font></div></li>
+<li><div class="src-line"><a name="a597"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></font></div></li>
+<li><div class="src-line"><a name="a598"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a599"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong></font><strong>-&gt;</strong><strong>rawResquest&nbsp;</strong>=&nbsp;implode<strong>(</strong><font color="#66cccc">&quot;\r\n&quot;</font><strong>,&nbsp;</strong><strong>$writeMe</strong><strong>)&nbsp;</strong>.&nbsp;</font><font color="#66cccc"><font color="#66cccc">"</font>\r\n\r\n</font>{<strong>$body</font><font color="#66cccc"></strong><strong>}</strong><font color="#66cccc">"</font><strong>;</strong></font></div></li>
+<li><div class="src-line"><a name="a600"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a601"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">if</font>&nbsp;<strong>(</strong>fwrite<strong>(</strong><strong>$this</strong></font><strong>-&gt;</strong><strong>socket</strong><strong>,&nbsp;</strong><strong>$this</strong><strong>-&gt;</strong><strong>rawResquest</strong><strong>)&nbsp;</strong>===&nbsp;false<strong>)&nbsp;</font><font color="#66cccc"></strong><strong>{</strong></font></div></li>
+<li><div class="src-line"><a name="a602"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw&nbsp;new&nbsp;Duckk_SimpleHTTP_Exception<strong>(</strong></font></div></li>
+<li><div class="src-line"><a name="a603"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#66cccc">"</font>Could&nbsp;not&nbsp;write&nbsp;to&nbsp;</font>{<strong>$this</strong><strong>-&gt;</strong><strong>host</strong><strong>}</strong>:{<strong>$this</strong><strong>-&gt;</strong><strong>port</strong><strong>}</strong>&nbsp;(code:&nbsp;<strong>$errno</strong>).&nbsp;Message:&nbsp;<strong>$err</font><font color="#66cccc"></strong><font color="#66cccc">"</font></font></div></li>
+<li><div class="src-line"><a name="a604"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>)</strong><strong>;</strong></font></div></li>
+<li><div class="src-line"><a name="a605"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></font></div></li>
+<li><div class="src-line"><a name="a606"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a607"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stream_set_timeout<strong>(</strong><strong>$this</strong></font><strong>-&gt;</strong><strong>socket</strong><strong>,&nbsp;</strong><strong>$this</strong><strong>-&gt;</strong><strong>timeoutStream</strong><strong>[</strong><font color="#66cccc">'sec'</font><strong>]</strong><strong>,&nbsp;</strong><strong>$this</strong><strong>-&gt;</strong><strong>timeoutStream</strong><strong>[</strong><font color="#66cccc">'ms'</font><strong>]</strong><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a608"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong><strong>-&gt;</strong><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methoddebug">debug</a><strong>(</strong><strong>$this</strong><strong>-&gt;</strong><strong>rawResquest</strong><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a609"></a>&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#66cccc"><strong>}</strong></font></div></li>
+<li><div class="src-line"><a name="a610"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a611"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;/**</font></div></li>
+<li><div class="src-line"><a name="a612"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Turn&nbsp;debugging&nbsp;on&nbsp;or&nbsp;off</font></div></li>
+<li><div class="src-line"><a name="a613"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a614"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@param&nbsp;bool&nbsp;$isDebug&nbsp;Whether&nbsp;debugging&nbsp;is&nbsp;on&nbsp;or&nbsp;not</font></div></li>
+<li><div class="src-line"><a name="a615"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a616"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">public</font>&nbsp;<font color="blue">function</font>&nbsp;setDebug<strong>(</strong><strong>$isDebug</strong>&nbsp;=&nbsp;false<strong>)</strong></font></div></li>
+<li><div class="src-line"><a name="a617"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;<strong>{</strong></font></div></li>
+<li><div class="src-line"><a name="a618"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong></font><strong>-&gt;</strong><strong>isDebug&nbsp;</strong>=&nbsp;<strong>$isDebug</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a619"></a>&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#66cccc"><strong>}</strong></font></div></li>
+<li><div class="src-line"><a name="a620"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a621"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;/**</font></div></li>
+<li><div class="src-line"><a name="a622"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Debug&nbsp;stuff&nbsp;by&nbsp;using&nbsp;PHP's&nbsp;error_log</font></div></li>
+<li><div class="src-line"><a name="a623"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a624"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Check&nbsp;out&nbsp;your&nbsp;PHP&nbsp;installation's&nbsp;value&nbsp;for&nbsp;error_log&nbsp;in&nbsp;php.ini</font></div></li>
+<li><div class="src-line"><a name="a625"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;via&nbsp;ini_get('error_log')&nbsp;to&nbsp;find&nbsp;out&nbsp;where&nbsp;this&nbsp;info&nbsp;is&nbsp;going.</font></div></li>
+<li><div class="src-line"><a name="a626"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;see:&nbsp;http://us.php.net/manual/en/function.error-log.php&nbsp;for&nbsp;more&nbsp;info</font></div></li>
+<li><div class="src-line"><a name="a627"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a628"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@param&nbsp;mixed&nbsp;$o&nbsp;The&nbsp;value&nbsp;to&nbsp;send&nbsp;to&nbsp;error_log</font></div></li>
+<li><div class="src-line"><a name="a629"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a630"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">protected</font>&nbsp;<font color="blue">function</font>&nbsp;debug<strong>(</strong><strong>$o</strong><strong>)</strong></font></div></li>
+<li><div class="src-line"><a name="a631"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;<strong>{</strong></font></div></li>
+<li><div class="src-line"><a name="a632"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">if</font>&nbsp;<strong>(</strong><strong>$this</strong></font><strong>-&gt;</strong><strong>isDebug</strong><strong>)&nbsp;</font><font color="#66cccc"></strong><strong>{</strong></font></div></li>
+<li><div class="src-line"><a name="a633"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error_log<strong>(</strong>print_r<strong>(</strong><strong>$o</strong><strong>,</strong>&nbsp;true<strong>)</strong>&nbsp;.&nbsp;<font color="#66cccc">&quot;\n&quot;</font><strong>)</strong><strong>;</strong></font></div></li>
+<li><div class="src-line"><a name="a634"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></font></div></li>
+<li><div class="src-line"><a name="a635"></a></font><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></font></div></li>
+<li><div class="src-line"><a name="a636"></a></font><font color="#66cccc"><strong>}</strong></font></div></li>
+<li><div class="src-line"><a name="a637"></a>&nbsp;</div></li>
+</ol></div>
+</div>
+	<div id="credit">
+		<hr />
+		Documentation generated on Sat, 16 May 2009 13:32:08 -0700 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.1</a>
+	</div>
+</body>
+</html>

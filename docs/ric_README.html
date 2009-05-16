@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<title>README</title>
+	<link rel="stylesheet" type="text/css" id="layout" href="media/layout.css" media="screen">
+	<link rel="stylesheet" type="text/css" href="media/style.css" media="all">
+	<link rel="stylesheet" type="text/css" href="media/print.css" media="print">
+</head>
+
+<body>
+<div id="header">
+	<div id="navLinks">
+        
+                                    
+                                                                    	        [ <a href="classtrees_default.html">Class Tree: default</a> ]
+            [ <a href="elementindex_default.html">Index: default</a> ]
+        		[ <a href="elementindex.html">All elements</a> ]		
+	</div>
+	<div id="packagePosition">
+		<div id="packageTitle2">default</div>
+		<div id="packageTitle">default</div>
+		<div id="elementPath"> &middot; </div>
+	</div>
+</div>
+
+<div id="nav" class="small">
+	<div id="ric">
+					<p><a href="ric_README.html">README</a></p>
+			</div>
+	<div id="packages">
+		Packages:
+					<p><a href="li_default.html">default</a></p>
+					<p><a href="li_SimpleHttp.html">SimpleHttp</a></p>
+					<p><a href="li_SimpleHTTP.html">SimpleHTTP</a></p>
+			</div>
+
+				<div id="index">
+			<div id="files">
+							</div>
+			<div id="interfaces">
+							</div>
+			<div id="classes">
+							</div>
+		</div>
+	</div>
+
+<div id="body">
+	    	<h1 align="center">README</h1>
+<pre>
+This is just a simple wrapper over PHP's socket functions to make http requests a bit easier.
+
+The class is both reusable and supports Keep-Alive. There's actually a decorator
+class (SimpleHttp_KeepAlive) to make using Keep-Alive connections a bit easier.
+
+When using normal (Connection: close not Keep-alive) connections the class will 
+re-connect if you try to use it for another request. When using Keep-Alive the class
+will just keep on using the same connection.
+
+Anywho... this is a work in progress &amp; was mostly intended for a couchdb library
+i was/am gonna write but it mostly seems to be working so I thought some people
+could get some use out of it.
+
+Check out the examples in the examples folder &amp; feel free to report or fix bugs.
+
+-Arin
+
+----------------------- Quick examples -----------------------
+
+&lt;?php
+
+/*
+ * Connection: close example (aka &quot;normal&quot;)
+ */
+
+$socket = new SimpleHttp('www.google.com'); // we wanna connect to google
+$socket-&gt;setConnectTimeout(1);              // set connection timeout to 1 second
+$socket-&gt;setStreamTimeout(1, 20);           // set read/write timeout to 1 second + 20ms
+$socket-&gt;get('/');                          // perform an HTTP GET on the path &quot;/&quot;
+
+print_r($socket-&gt;getResponseHeaders());     // take a look at the response headers
+print_r($socket-&gt;getResponseStatus());      // check out the HTTP response status
+print_r($socket-&gt;getResponseBody());        // output the body of the HTTP response
+print_r($socket-&gt;getRawResponse());         // the raw server response... headers &amp; body not parsed out
+
+/*
+ * Connection: Keep-Alive example
+ *
+ * You'll need to find a server that does Connection: keep-alive
+ * I created a vhost on my local box. see etc/ folder for a sample conf file
+ */
+
+$socket = new SimpleHttp_KeepAlive('couchdb.local');    
+
+echo &quot;First request\n\n&quot;;
+$socket-&gt;get('/');
+print_r($socket-&gt;getResponseBody()); 
+
+echo &quot;Second request on same connection\n\n&quot;;
+$socket-&gt;get('/_all_dbs');
+print_r($socket-&gt;getResponseBody());
+$socket-&gt;close(); 
+
+// more examples in the examples folder
+
+?&gt;
+</pre>
+	<div id="credit">
+		<hr>
+		Documentation generated on Sat, 16 May 2009 13:27:17 -0700 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
+	</div>
+</div>
+</body>
+</html>

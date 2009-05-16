@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<title>File Source for GET.php</title>
+	<link rel="stylesheet" type="text/css" id="layout" href="../media/layout.css" media="screen">
+	<link rel="stylesheet" type="text/css" href="../media/style.css" media="all">
+	<link rel="stylesheet" type="text/css" href="../media/print.css" media="print">
+</head>
+
+<body>
+<div id="header">
+	<div id="navLinks">
+        
+                                    
+                                                                    	        [ <a href="../classtrees_default.html">Class Tree: default</a> ]
+            [ <a href="../elementindex_default.html">Index: default</a> ]
+        		[ <a href="../elementindex.html">All elements</a> ]		
+	</div>
+	<div id="packagePosition">
+		<div id="packageTitle2">default</div>
+		<div id="packageTitle">default</div>
+		<div id="elementPath"> &middot; </div>
+	</div>
+</div>
+
+<div id="nav" class="small">
+	<div id="ric">
+					<p><a href="../ric_README.html">README</a></p>
+			</div>
+	<div id="packages">
+		Packages:
+					<p><a href="../li_default.html">default</a></p>
+					<p><a href="../li_SimpleHttp.html">SimpleHttp</a></p>
+					<p><a href="../li_SimpleHTTP.html">SimpleHTTP</a></p>
+			</div>
+
+				<div id="index">
+			<div id="files">
+							</div>
+			<div id="interfaces">
+							</div>
+			<div id="classes">
+							</div>
+		</div>
+	</div>
+
+<div id="body">
+	    	<h1 align="center">Source for file GET.php</h1>
+<p>Documentation is available at <a href="../default/_examples---GET.php.html">GET.php</a></p>
+<div class="php-src">
+<ol><li><div class="src-line"><a name="a1"></a><span class="src-php">&lt;?php</span></div></li>
+<li><div class="src-line"><a name="a2"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a3"></a><span class="src-inc">require_once</span><span class="src-sym">(</span><span class="src-str">'./inc.php'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a4"></a><span class="src-inc">require_once</span><span class="src-sym">(</span><span class="src-str">'Duckk/SimpleHTTP.php'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a5"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a6"></a><span class="src-doc">/**</span></div></li>
+<li><div class="src-line"><a name="a7"></a><span class="src-doc">&nbsp;*&nbsp;Example&nbsp;of&nbsp;issuing&nbsp;a&nbsp;simple&nbsp;GET&nbsp;request</span></div></li>
+<li><div class="src-line"><a name="a8"></a><span class="src-doc">&nbsp;*/</span></div></li>
+<li><div class="src-line"><a name="a9"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a10"></a><span class="src-var">$socket&nbsp;</span>=&nbsp;<span class="src-key">new&nbsp;</span><span class="src-id"><a href="../SimpleHttp/Duckk_SimpleHTTP.html">Duckk_SimpleHTTP</a></span><span class="src-sym">(</span><span class="src-str">'google.com'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a11"></a><span class="src-var">$socket</span><span class="src-sym">-&gt;</span><span class="src-id">setStreamTimeout</span><span class="src-sym">(</span><span class="src-num">1</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a12"></a><span class="src-var">$socket</span><span class="src-sym">-&gt;</span><span class="src-id">get</span><span class="src-sym">(</span><span class="src-str">'/'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a13"></a><a href="http://www.php.net/var_dump">var_dump</a><span class="src-sym">(</span><span class="src-var">$socket</span><span class="src-sym">)</span><span class="src-sym">;&nbsp;</span></div></li>
+<li><div class="src-line"><a name="a14"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a15"></a><span class="src-php">?&gt;</span></div></li>
+</ol>
+</div>
+	<div id="credit">
+		<hr>
+		Documentation generated on Sat, 16 May 2009 13:27:17 -0700 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
+	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,1018 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class Duckk_SimpleHTTP</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class Duckk_SimpleHTTP
+</h2> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a32">32</a></span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+</pre>
+<p>
+	<b><i>Located in File: <a href="_SimpleHTTP.php.html">/SimpleHTTP.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>A simple-to-use class for basic HTTP communication over PHP's</h5>
+<div class="desc"><p>A simple-to-use class for basic HTTP communication over PHP's socket operations/function</p></div>
+<ul>
+		<li><strong>author:</strong> - Arin Sarkissian &lt;<a href="mailto:arin@rspot.net">arin@rspot.net</a>&gt;</li>
+		<li><strong>copyright:</strong> - 2009 Arin Sarkissian</li>
+	</ul>
+<br /><hr />
+<span class="type">Classes extended from Duckk_SimpleHTTP:</span>
+ 		<dl>
+	<dt><a href="../SimpleHTTP/Duckk_SimpleHTTP_KeepAlive.html">Duckk_SimpleHTTP_KeepAlive</a></dt>
+		<dd>A simple class that decorates Duckk_SimpleHTTP to &quot;force&quot; Keep-Alive support.</dd>
+	</dl>
+	</p>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="const-title">
+    <a href="#constDEFAULT_KEEPALIVE_CONNECTIONS" title="details" class="property"><strong>DEFAULT_KEEPALIVE_CONNECTIONS</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constDEFAULT_KEEPALIVE_TIMEOUT" title="details" class="property"><strong>DEFAULT_KEEPALIVE_TIMEOUT</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constDEFAULT_PORT" title="details" class="property"><strong>DEFAULT_PORT</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constHTTP_METHOD_DELETE" title="details" class="property"><strong>HTTP_METHOD_DELETE</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constHTTP_METHOD_GET" title="details" class="property"><strong>HTTP_METHOD_GET</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constHTTP_METHOD_HEAD" title="details" class="property"><strong>HTTP_METHOD_HEAD</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constHTTP_METHOD_POST" title="details" class="property"><strong>HTTP_METHOD_POST</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constHTTP_METHOD_PUT" title="details" class="property"><strong>HTTP_METHOD_PUT</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constHTTP_VERSION_1_0" title="details" class="property"><strong>HTTP_VERSION_1_0</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constHTTP_VERSION_1_1" title="details" class="property"><strong>HTTP_VERSION_1_1</strong></a>
+</div>
+<hr />
+<a name="constDEFAULT_KEEPALIVE_CONNECTIONS" id="constDEFAULT_KEEPALIVE_CONNECTIONS"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">DEFAULT_KEEPALIVE_CONNECTIONS =  100</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a166">166</a></span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constDEFAULT_KEEPALIVE_TIMEOUT" id="constDEFAULT_KEEPALIVE_TIMEOUT"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">DEFAULT_KEEPALIVE_TIMEOUT =  50</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a165">165</a></span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constDEFAULT_PORT" id="constDEFAULT_PORT"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">DEFAULT_PORT =  80</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a164">164</a></span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Connection defaults</h5>
+<div class="desc"><p>Connection defaults</p></div>
+<ul>
+	</ul>
+</div>
+<a name="constHTTP_METHOD_DELETE" id="constHTTP_METHOD_DELETE"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">HTTP_METHOD_DELETE =  'DELETE'</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a158">158</a></span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constHTTP_METHOD_GET" id="constHTTP_METHOD_GET"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">HTTP_METHOD_GET =  'GET'</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a155">155</a></span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>HTTP methods</h5>
+<div class="desc"><p>HTTP methods</p></div>
+<ul>
+	</ul>
+</div>
+<a name="constHTTP_METHOD_HEAD" id="constHTTP_METHOD_HEAD"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">HTTP_METHOD_HEAD =  'HEAD'</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a159">159</a></span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constHTTP_METHOD_POST" id="constHTTP_METHOD_POST"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">HTTP_METHOD_POST =  'POST'</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a157">157</a></span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constHTTP_METHOD_PUT" id="constHTTP_METHOD_PUT"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">HTTP_METHOD_PUT =  'PUT'</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a156">156</a></span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constHTTP_VERSION_1_0" id="constHTTP_VERSION_1_0"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">HTTP_VERSION_1_0 =  1.0</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a149">149</a></span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>HTTP versions</h5>
+<div class="desc"><p>HTTP versions</p></div>
+<ul>
+	</ul>
+</div>
+<a name="constHTTP_VERSION_1_1" id="constHTTP_VERSION_1_1"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">HTTP_VERSION_1_1 =  1.1</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a150">150</a></span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+    <div class="method-definition">
+            <span class="method-result">Duckk_SimpleHTTP</span>
+        <a href="#method__construct" title="details" class="method-name">__construct</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$host</span>, [<span class="var-type">int</span>&nbsp;<span class="var-name">$port</span> = <span class="var-default">self::DEFAULT_PORT</span>])
+        </div>
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#method__destruct" title="details" class="method-name">__destruct</a>
+        ()
+        </div>
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodaddHeader" title="details" class="method-name">addHeader</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$value</span>)
+        </div>
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodclose" title="details" class="method-name">close</a>
+        ()
+        </div>
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodconnect" title="details" class="method-name">connect</a>
+        ()
+        </div>
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methoddebug" title="details" class="method-name">debug</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$o</span>)
+        </div>
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methoddelete" title="details" class="method-name">delete</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$path</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$body</span> = <span class="var-default">null</span>])
+        </div>
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methoddoHttp" title="details" class="method-name">doHttp</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$method</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$path</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$body</span> = <span class="var-default">null</span>])
+        </div>
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodget" title="details" class="method-name">get</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$path</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$body</span> = <span class="var-default">null</span>])
+        </div>
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodgetRawResponse" title="details" class="method-name">getRawResponse</a>
+        ()
+        </div>
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodgetRequest" title="details" class="method-name">getRequest</a>
+        ()
+        </div>
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodgetResponseBody" title="details" class="method-name">getResponseBody</a>
+        ()
+        </div>
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodgetResponseHeaders" title="details" class="method-name">getResponseHeaders</a>
+        ()
+        </div>
+    <div class="method-definition">
+            <span class="method-result">int</span>
+        <a href="#methodgetResponseStatus" title="details" class="method-name">getResponseStatus</a>
+        ()
+        </div>
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodhead" title="details" class="method-name">head</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$path</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$body</span> = <span class="var-default">null</span>])
+        </div>
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodpost" title="details" class="method-name">post</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$path</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$body</span> = <span class="var-default">null</span>])
+        </div>
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodput" title="details" class="method-name">put</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$path</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$body</span> = <span class="var-default">null</span>])
+        </div>
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodread" title="details" class="method-name">read</a>
+        ()
+        </div>
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodremoveHeader" title="details" class="method-name">removeHeader</a>
+        (<span class="var-type"></span>&nbsp;<span class="var-name">$name</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$nameThe</span>)
+        </div>
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetConnectTimeout" title="details" class="method-name">setConnectTimeout</a>
+        (<span class="var-type">int</span>&nbsp;<span class="var-name">$sec</span>)
+        </div>
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetDebug" title="details" class="method-name">setDebug</a>
+        ([<span class="var-type">bool</span>&nbsp;<span class="var-name">$isDebug</span> = <span class="var-default">false</span>])
+        </div>
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetHttpVersion" title="details" class="method-name">setHttpVersion</a>
+        (<span class="var-type"></span>&nbsp;<span class="var-name">$httpVersion</span>)
+        </div>
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetKeepAvlive" title="details" class="method-name">setKeepAvlive</a>
+        ([<span class="var-type"></span>&nbsp;<span class="var-name">$timeout</span> = <span class="var-default">self::DEFAULT_KEEPALIVE_TIMEOUT</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$maxConnections</span> = <span class="var-default">self::DEFAULT_KEEPALIVE_CONNECTIONS</span>], <span class="var-type">int</span>&nbsp;<span class="var-name">$keepAliveValue</span>)
+        </div>
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetMethod" title="details" class="method-name">setMethod</a>
+        ([<span class="var-type"></span>&nbsp;<span class="var-name">$httpMethod</span> = <span class="var-default">self::HTTP_METHOD_GET</span>])
+        </div>
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetNonBlocking" title="details" class="method-name">setNonBlocking</a>
+        ([<span class="var-type">bool</span>&nbsp;<span class="var-name">$block</span> = <span class="var-default">false</span>])
+        </div>
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetPath" title="details" class="method-name">setPath</a>
+        (<span class="var-type"></span>&nbsp;<span class="var-name">$path</span>)
+        </div>
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetStreamTimeout" title="details" class="method-name">setStreamTimeout</a>
+        (<span class="var-type">int</span>&nbsp;<span class="var-name">$sec</span>, [<span class="var-type">int</span>&nbsp;<span class="var-name">$ms</span> = <span class="var-default">0</span>])
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="method__construct" id="method__construct"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/Constructor.gif" border="0" /> <strong class="method">Constructor __construct</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a174">174</a></span>)
+ </h4> 
+<h4><i>Duckk_SimpleHTTP</i> <strong>__construct(
+string
+$host, [int
+$port = self::DEFAULT_PORT])</strong></h4>
+	<p>Overridden in child classes as:<br />
+		<dl>
+	<dt><a href="../SimpleHTTP/Duckk_SimpleHTTP_KeepAlive.html#method__construct">Duckk_SimpleHTTP_KeepAlive::__construct()</a></dt>
+		<dd>Constructor</dd>
+	</dl>
+	</p>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Constructor</h5>
+<div class="desc"><p>Constructor</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $host</strong>: The http host</li>
+			<li><strong>int $port</strong>: The port to connect to</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="method__destruct" id="method__destruct"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/Destructor.gif" border="0" /> <strong class="method">Destructor __destruct</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a189">189</a></span>)
+ </h4> 
+<h4><i>void</i> <strong>__destruct(
+)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Destructor</h5>
+<div class="desc"><p>Destructor
+ Close the connection</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodaddHeader" id="methodaddHeader"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method addHeader</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a337">337</a></span>)
+ </h4> 
+<h4><i>void</i> <strong>addHeader(
+string
+$name, string
+$value)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Add a header for the next HTTP request</h5>
+<div class="desc"><p>Add a header for the next HTTP request
+ example: $socket-&gt;addHeader('Connection', 'close');</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $name</strong>: The name of the header</li>
+			<li><strong>string $value</strong>: The value of the header</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodclose" id="methodclose"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method close</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a572">572</a></span>)
+ </h4> 
+<h4><i>void</i> <strong>close(
+)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Close the socket and perform some housekeeping</h5>
+<div class="desc"><p>Close the socket and perform some housekeeping</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodconnect" id="methodconnect"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method connect</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a449">449</a></span>)
+ </h4> 
+<h4><i>void</i> <strong>connect(
+)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Make the socket connection</h5>
+<div class="desc"><p>Make the socket connection
+ A tiemout can be specified by using $this-&gt;setConnectTimeout()</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methoddebug" id="methoddebug"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method debug</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a630">630</a></span>)
+ </h4> 
+<h4><i>void</i> <strong>debug(
+mixed
+$o)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Debug stuff by using PHP's error_log
+ Check out your PHP installation's value for error_log in php. via ini_get('error_log') to find out where this info is going.</h5>
+<div class="desc"><p>Debug stuff by using PHP's error_log
+ Check out your PHP installation's value for error_log in php.ini via ini_get('error_log') to find out where this info is going. see: http://us.php.net/manual/en/function.error-log.php for more info</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $o</strong>: The value to send to error_log</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - protected</li>
+		</ul>
+</div>
+<a name="methoddelete" id="methoddelete"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method delete</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a243">243</a></span>)
+ </h4> 
+<h4><i>void</i> <strong>delete(
+string
+$path, [string
+$body = null])</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Run an HTTP DELETE</h5>
+<div class="desc"><p>Run an HTTP DELETE</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $path</strong>: The path to DELETE</li>
+			<li><strong>string $body</strong>: The body of the DELETE</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methoddoHttp" id="methoddoHttp"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method doHttp</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a271">271</a></span>)
+ </h4> 
+<h4><i>void</i> <strong>doHttp(
+string
+$method, string
+$path, [string
+$body = null])</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Do the actually HTTP work</h5>
+<div class="desc"><p>Do the actually HTTP work
+ Set up a few things, make sure we're connected, make the request &amp; finally read the response and save it</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $method</strong>: An HTTP method the server knows how to handle</li>
+			<li><strong>string $path</strong>: The path</li>
+			<li><strong>string $body</strong>: The body of the HTTP request</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - protected</li>
+		</ul>
+</div>
+<a name="methodget" id="methodget"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method get</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a202">202</a></span>)
+ </h4> 
+<h4><i>void</i> <strong>get(
+string
+$path, [string
+$body = null])</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Run an HTTP GET</h5>
+<div class="desc"><p>Run an HTTP GET</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $path</strong>: The path to request</li>
+			<li><strong>string $body</strong>: The body of the request</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetRawResponse" id="methodgetRawResponse"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getRawResponse</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a324">324</a></span>)
+ </h4> 
+<h4><i>string</i> <strong>getRawResponse(
+)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Get the last HTTP response as a string</h5>
+<div class="desc"><p>Get the last HTTP response as a string
+ The headers and body are includes as a big string... unparsed</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetRequest" id="methodgetRequest"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getRequest</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a282">282</a></span>)
+ </h4> 
+<h4><i>void</i> <strong>getRequest(
+)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>The the HTTP request as a string</h5>
+<div class="desc"><p>The the HTTP request as a string</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetResponseBody" id="methodgetResponseBody"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getResponseBody</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a312">312</a></span>)
+ </h4> 
+<h4><i>string</i> <strong>getResponseBody(
+)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Get the body of the last HTTP response</h5>
+<div class="desc"><p>Get the body of the last HTTP response</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetResponseHeaders" id="methodgetResponseHeaders"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getResponseHeaders</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a302">302</a></span>)
+ </h4> 
+<h4><i>array</i> <strong>getResponseHeaders(
+)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>The the HTTP headers from the last response</h5>
+<div class="desc"><p>The the HTTP headers from the last response</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - The headers as an associative array</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetResponseStatus" id="methodgetResponseStatus"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getResponseStatus</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a292">292</a></span>)
+ </h4> 
+<h4><i>int</i> <strong>getResponseStatus(
+)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>The the HTTP status of the last request</h5>
+<div class="desc"><p>The the HTTP status of the last request</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - The last HTTP status code</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodhead" id="methodhead"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method head</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a256">256</a></span>)
+ </h4> 
+<h4><i>void</i> <strong>head(
+string
+$path, [string
+$body = null])</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Run an HTTP HEAD</h5>
+<div class="desc"><p>Run an HTTP HEAD</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $path</strong>: The path to HEAD</li>
+			<li><strong>string $body</strong>: The body of the HEAD</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodpost" id="methodpost"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method post</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a215">215</a></span>)
+ </h4> 
+<h4><i>void</i> <strong>post(
+string
+$path, [string
+$body = null])</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Run an HTTP POST</h5>
+<div class="desc"><p>Run an HTTP POST</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $path</strong>: The path to post to</li>
+			<li><strong>string $body</strong>: The body of the POST</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodput" id="methodput"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method put</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a229">229</a></span>)
+ </h4> 
+<h4><i>void</i> <strong>put(
+string
+$path, [string
+$body = null])</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Run an HTTP PUT</h5>
+<div class="desc"><p>Run an HTTP PUT</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $path</strong>: The path to PUT to</li>
+			<li><strong>string $body</strong>: The body of the PUT</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodread" id="methodread"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method read</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a480">480</a></span>)
+ </h4> 
+<h4><i>void</i> <strong>read(
+)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Read from the socket connection
+ We will be parsing the raw payload and splitting it into the body and headers.</h5>
+<div class="desc"><p>Read from the socket connection
+ We will be parsing the raw payload and splitting it into the body and headers. You can get to that data using $this-&gt;getResponseBody() and $this-&gt;getResponseHeaders()
+ A timeout for reads can be specified by using $this-&gt;setConnectTimeout()</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodremoveHeader" id="methodremoveHeader"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method removeHeader</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a349">349</a></span>)
+ </h4> 
+<h4><i>void</i> <strong>removeHeader(
+
+$name, string
+$nameThe)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Remove a header for the next HTTP request</h5>
+<div class="desc"><p>Remove a header for the next HTTP request
+ example: $socket-&gt;removeeader('Connection', 'close');</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $nameThe</strong>: name of the header you want removed</li>
+			<li><strong> $name</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetConnectTimeout" id="methodsetConnectTimeout"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setConnectTimeout</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a417">417</a></span>)
+ </h4> 
+<h4><i>void</i> <strong>setConnectTimeout(
+int
+$sec)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Set the timeout for the socket connection</h5>
+<div class="desc"><p>Set the timeout for the socket connection</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>int $sec</strong>: The number of seconds before the connection times out</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetDebug" id="methodsetDebug"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setDebug</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a616">616</a></span>)
+ </h4> 
+<h4><i>void</i> <strong>setDebug(
+[bool
+$isDebug = false])</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Turn debugging on or off</h5>
+<div class="desc"><p>Turn debugging on or off</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>bool $isDebug</strong>: Whether debugging is on or not</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetHttpVersion" id="methodsetHttpVersion"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setHttpVersion</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a369">369</a></span>)
+ </h4> 
+<h4><i>void</i> <strong>setHttpVersion(
+
+$httpVersion)</strong></h4>
+	<p>Overridden in child classes as:<br />
+		<dl>
+	<dt><a href="../SimpleHTTP/Duckk_SimpleHTTP_KeepAlive.html#methodsetHttpVersion">Duckk_SimpleHTTP_KeepAlive::setHttpVersion()</a></dt>
+		<dd>Override parent::setHttpVersion() in order to not</dd>
+	</dl>
+	</p>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Set the HTTP version you want to use</h5>
+<div class="desc"><p>Set the HTTP version you want to use
+ Should be self::HTTP_VERSION_1_1 or self::HTTP_VERSION_1_0</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong> $httpVersion</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetKeepAvlive" id="methodsetKeepAvlive"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setKeepAvlive</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a400">400</a></span>)
+ </h4> 
+<h4><i>void</i> <strong>setKeepAvlive(
+[
+$timeout = self::DEFAULT_KEEPALIVE_TIMEOUT], [
+$maxConnections = self::DEFAULT_KEEPALIVE_CONNECTIONS], int
+$keepAliveValue)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Set the value of the Keep-Alive request header
+ The Connection header will automatically be set to Keep-Alive.</h5>
+<div class="desc"><p>Set the value of the Keep-Alive request header
+ The Connection header will automatically be set to Keep-Alive. You should probably make sure you're using HTTP 1.1
+ You can set an arbitrary value for the Keep-Alive header by setting $timeout to whatever you want and $maxConnections to null. This will let you do something like Keep-Alive: 400 or Keep-Alive: RandomShit=9, foo=bar
+ To set a Keep-Alive header with Keep-Alive: timeout=200, max=6 then pass in int's for both $timeout and $maxConnections</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>int $keepAliveValue</strong>: The value for the Keep-Alive request header</li>
+			<li><strong> $timeout</strong>: </li>
+			<li><strong> $maxConnections</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetMethod" id="methodsetMethod"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setMethod</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a380">380</a></span>)
+ </h4> 
+<h4><i>void</i> <strong>setMethod(
+[
+$httpMethod = self::HTTP_METHOD_GET])</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Set the method to use for the next HTTP request</h5>
+<div class="desc"><p>Set the method to use for the next HTTP request
+ see: self::HTTP_METHOD_GET, self::HTTP_METHOD_POST self::HTTP_METHOD_PUT  self::HTTP_METHOD_DELETE, self::HTTP_METHOD_HEAD</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong> $httpMethod</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetNonBlocking" id="methodsetNonBlocking"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setNonBlocking</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a438">438</a></span>)
+ </h4> 
+<h4><i>void</i> <strong>setNonBlocking(
+[bool
+$block = false])</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Set the socket to clocking or non-blocking</h5>
+<div class="desc"><p>Set the socket to clocking or non-blocking</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>bool $block</strong>: Whether you want the socket to block or not</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetPath" id="methodsetPath"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setPath</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a359">359</a></span>)
+ </h4> 
+<h4><i>void</i> <strong>setPath(
+
+$path)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Set the path to make the HTTP request to</h5>
+<div class="desc"><p>Set the path to make the HTTP request to</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong> $path</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - protected</li>
+		</ul>
+</div>
+<a name="methodsetStreamTimeout" id="methodsetStreamTimeout"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setStreamTimeout</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTP.php.html#a428">428</a></span>)
+ </h4> 
+<h4><i>void</i> <strong>setStreamTimeout(
+int
+$sec, [int
+$ms = 0])</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Set the timeout for the socket reads and writes</h5>
+<div class="desc"><p>Set the timeout for the socket reads and writes</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>int $sec</strong>: The number of seconds before the stream io times out</li>
+			<li><strong>int $ms</strong>: The number of ms before the stream io times out</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Sat, 16 May 2009 13:32:08 -0700 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.1</a>
+	</div>
+</body>
+</html>

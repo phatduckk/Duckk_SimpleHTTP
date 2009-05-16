@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>File Source for KeepAlive.php</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><h1 align="center">Source for file KeepAlive.php</h1>
+<p>Documentation is available at <a href="../SimpleHTTP/_SimpleHTTP---KeepAlive.php.html">KeepAlive.php</a></p>
+<div class="src-code">
+<div class="src-code"><ol><li><div class="src-line"><a name="a1"></a><strong>&lt;?php</strong></div></li>
+<li><div class="src-line"><a name="a2"></a><font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a3"></a><font color="#009999">&nbsp;*&nbsp;Config</font></div></li>
+<li><div class="src-line"><a name="a4"></a><font color="#009999">&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a5"></a><font color="#009999">&nbsp;*&nbsp;PHP&nbsp;version&nbsp;5.2.0+</font></div></li>
+<li><div class="src-line"><a name="a6"></a><font color="#009999">&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a7"></a><font color="#009999">&nbsp;*&nbsp;LICENSE:&nbsp;This&nbsp;source&nbsp;file&nbsp;is&nbsp;subject&nbsp;to&nbsp;the&nbsp;New&nbsp;BSD&nbsp;license&nbsp;that&nbsp;is</font></div></li>
+<li><div class="src-line"><a name="a8"></a><font color="#009999">&nbsp;*&nbsp;available&nbsp;through&nbsp;the&nbsp;world-wide-web&nbsp;at&nbsp;the&nbsp;following&nbsp;URI:</font></div></li>
+<li><div class="src-line"><a name="a9"></a><font color="#009999">&nbsp;*&nbsp;http://www.opensource.org/licenses/bsd-license.php.&nbsp;If&nbsp;you&nbsp;did&nbsp;not&nbsp;receive</font></div></li>
+<li><div class="src-line"><a name="a10"></a><font color="#009999">&nbsp;*&nbsp;a&nbsp;copy&nbsp;of&nbsp;the&nbsp;New&nbsp;BSD&nbsp;License&nbsp;and&nbsp;are&nbsp;unable&nbsp;to&nbsp;obtain&nbsp;it&nbsp;through&nbsp;the&nbsp;web,</font></div></li>
+<li><div class="src-line"><a name="a11"></a><font color="#009999">&nbsp;*&nbsp;please&nbsp;send&nbsp;a&nbsp;note&nbsp;to&nbsp;license@php.net&nbsp;so&nbsp;we&nbsp;can&nbsp;mail&nbsp;you&nbsp;a&nbsp;copy&nbsp;immediately.</font></div></li>
+<li><div class="src-line"><a name="a12"></a><font color="#009999">&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a13"></a><font color="#009999">&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@category</font></strong><font color="#009999">&nbsp;&nbsp;Duckk</font></div></li>
+<li><div class="src-line"><a name="a14"></a><font color="#009999">&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@package</font></strong><font color="#009999">&nbsp;&nbsp;&nbsp;SimpleHTTP</font></div></li>
+<li><div class="src-line"><a name="a15"></a><font color="#009999">&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@author</font></strong><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;Arin&nbsp;Sarkissian&nbsp;&lt;arin@rspot.net&gt;</font></div></li>
+<li><div class="src-line"><a name="a16"></a><font color="#009999">&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@copyright</font></strong><font color="#009999">&nbsp;2009&nbsp;Arin&nbsp;Sarkissian</font></div></li>
+<li><div class="src-line"><a name="a17"></a><font color="#009999">&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@license</font></strong><font color="#009999">&nbsp;&nbsp;&nbsp;http://www.opensource.org/licenses/bsd-license.php&nbsp;New&nbsp;BSD&nbsp;License</font></div></li>
+<li><div class="src-line"><a name="a18"></a><font color="#009999">&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@version</font></strong><font color="#009999">&nbsp;&nbsp;&nbsp;CVS:&nbsp;$Id$</font></div></li>
+<li><div class="src-line"><a name="a19"></a><font color="#009999">&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a20"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a21"></a><font color="blue">require_once&nbsp;</font><font color="#66cccc">'Duckk/SimpleHTTP.php'</font><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a22"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a23"></a><font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a24"></a><font color="#009999">&nbsp;*&nbsp;A&nbsp;simple&nbsp;class&nbsp;that&nbsp;decorates&nbsp;Duckk_SimpleHTTP&nbsp;to&nbsp;&quot;force&quot;&nbsp;Keep-Alive&nbsp;support.</font></div></li>
+<li><div class="src-line"><a name="a25"></a><font color="#009999">&nbsp;*&nbsp;Essentially&nbsp;it&nbsp;just&nbsp;sets&nbsp;the&nbsp;Connection&nbsp;header&nbsp;and&nbsp;forces&nbsp;HTTP&nbsp;1.1</font></div></li>
+<li><div class="src-line"><a name="a26"></a><font color="#009999">&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a27"></a><font color="#009999">&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@category</font></strong><font color="#009999">&nbsp;&nbsp;SimpleHTTP</font></div></li>
+<li><div class="src-line"><a name="a28"></a><font color="#009999">&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@package</font></strong><font color="#009999">&nbsp;&nbsp;&nbsp;SimpleHTTP</font></div></li>
+<li><div class="src-line"><a name="a29"></a><font color="#009999">&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@author</font></strong><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;Arin&nbsp;Sarkissian&nbsp;&lt;arin@rspot.net&gt;</font></div></li>
+<li><div class="src-line"><a name="a30"></a><font color="#009999">&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@copyright</font></strong><font color="#009999">&nbsp;2009&nbsp;Arin&nbsp;Sarkissian</font></div></li>
+<li><div class="src-line"><a name="a31"></a><font color="#009999">&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a32"></a><font color="blue">class&nbsp;</font><a href="../SimpleHTTP/Duckk_SimpleHTTP_KeepAlive.html">Duckk_SimpleHTTP_KeepAlive</a>&nbsp;<font color="blue">extends&nbsp;</font><a href="../SimpleHTTP/Duckk_SimpleHTTP.html">Duckk_SimpleHTTP</a></div></li>
+<li><div class="src-line"><a name="a33"></a><strong>{</strong></div></li>
+<li><div class="src-line"><a name="a34"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a35"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Constructor</font></div></li>
+<li><div class="src-line"><a name="a36"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a37"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Call&nbsp;the&nbsp;parent,&nbsp;set&nbsp;Connection&nbsp;header&nbsp;to&nbsp;Keep-Alive,&nbsp;and&nbsp;finally</font></div></li>
+<li><div class="src-line"><a name="a38"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;set&nbsp;the&nbsp;HTTP&nbsp;version&nbsp;to&nbsp;1.1</font></div></li>
+<li><div class="src-line"><a name="a39"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a40"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">public&nbsp;</font><font color="blue">function&nbsp;</font><a href="../SimpleHTTP/Duckk_SimpleHTTP_KeepAlive.html#method__construct">__construct</a><strong>(</strong><strong>$host</strong><strong>,&nbsp;</strong><strong>$port&nbsp;</strong>=&nbsp;self<strong>::</strong>DEFAULT_PORT<strong>,&nbsp;</strong></div></li>
+<li><div class="src-line"><a name="a41"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$keepAliveTimeout&nbsp;</strong>=&nbsp;self<strong>::</strong>DEFAULT_KEEPALIVE_TIMEOUT<strong>,</strong></div></li>
+<li><div class="src-line"><a name="a42"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$keepAliveConnections&nbsp;</strong>=&nbsp;self<strong>::</strong>DEFAULT_KEEPALIVE_CONNECTIONS<strong>)</strong></div></li>
+<li><div class="src-line"><a name="a43"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>{</strong></div></li>
+<li><div class="src-line"><a name="a44"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent<strong>::</strong><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#method__construct">__construct</a><strong>(</strong><strong>$host</strong><strong>,&nbsp;</strong><strong>$port</strong><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a45"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></li>
+<li><div class="src-line"><a name="a46"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong><strong>-&gt;</strong><a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodsetKeepAvlive">setKeepAvlive</a><strong>(</strong><strong>$keepAliveTimeout</strong><strong>,&nbsp;</strong><strong>$keepAliveConnections</strong><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a47"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$this</strong><strong>-&gt;</strong><a href="../SimpleHTTP/Duckk_SimpleHTTP_KeepAlive.html#methodsetHttpVersion">setHttpVersion</a><strong>(</strong>self<strong>::</strong>HTTP_VERSION_1_1<strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line"><a name="a48"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>}&nbsp;&nbsp;&nbsp;&nbsp;</strong></div></li>
+<li><div class="src-line"><a name="a49"></a>&nbsp;&nbsp;&nbsp;&nbsp;</div></li>
+<li><div class="src-line"><a name="a50"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999">/**</font></div></li>
+<li><div class="src-line"><a name="a51"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Override&nbsp;parent::setHttpVersion()&nbsp;in&nbsp;order&nbsp;to&nbsp;not</font></div></li>
+<li><div class="src-line"><a name="a52"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;allow&nbsp;HTTP&nbsp;1.0</font></div></li>
+<li><div class="src-line"><a name="a53"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</font></div></li>
+<li><div class="src-line"><a name="a54"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</font><strong><font color = "#0099FF">@param&nbsp;</font></strong><em>int&nbsp;</em><strong>$httpVersion&nbsp;</strong><font color="#009999">Doesn't&nbsp;fuckin&nbsp;matter&nbsp;yo</font></div></li>
+<li><div class="src-line"><a name="a55"></a><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font></div></li>
+<li><div class="src-line"><a name="a56"></a>&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue">public&nbsp;</font><font color="blue">function&nbsp;</font><a href="../SimpleHTTP/Duckk_SimpleHTTP_KeepAlive.html#methodsetHttpVersion">setHttpVersion</a><strong>(</strong><strong>$httpVersion</strong><strong>)</strong></div></li>
+<li><div class="src-line"><a name="a57"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>{</strong></div></li>
+<li><div class="src-line"><a name="a58"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="green">//&nbsp;noop&nbsp;-&nbsp;don't&nbsp;the&nbsp;http&nbsp;version&nbsp;to&nbsp;change</font></div></li>
+<li><div class="src-line"><a name="a59"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="green">//&nbsp;we&nbsp;need&nbsp;1.1&nbsp;for&nbsp;Keep-Alive</font></div></li>
+<li><div class="src-line"><a name="a60"></a>&nbsp;&nbsp;&nbsp;&nbsp;<strong>}</strong></div></li>
+<li><div class="src-line"><a name="a61"></a><strong>}</strong></div></li>
+<li><div class="src-line"><a name="a62"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a63"></a><strong>?&gt;</strong></div></li>
+</ol></div>
+</div>
+	<div id="credit">
+		<hr />
+		Documentation generated on Sat, 16 May 2009 13:32:07 -0700 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.1</a>
+	</div>
+</body>
+</html>

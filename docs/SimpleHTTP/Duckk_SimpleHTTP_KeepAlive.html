@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class Duckk_SimpleHTTP_KeepAlive</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class Duckk_SimpleHTTP_KeepAlive
+</h2> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTPKeepAlive.php.html#a32">32</a></span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+<a href="../SimpleHTTP/Duckk_SimpleHTTP.html">Duckk_SimpleHTTP</a>
+   |
+   --Duckk_SimpleHTTP_KeepAlive</pre>
+<p>
+	<b><i>Located in File: <a href="_SimpleHTTP---KeepAlive.php.html">/SimpleHTTP/KeepAlive.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>A simple class that decorates Duckk_SimpleHTTP to &quot;force&quot; Keep-Alive support.</h5>
+<div class="desc"><p>A simple class that decorates Duckk_SimpleHTTP to &quot;force&quot; Keep-Alive support. Essentially it just sets the Connection header and forces HTTP 1.1</p></div>
+<ul>
+		<li><strong>author:</strong> - Arin Sarkissian &lt;<a href="mailto:arin@rspot.net">arin@rspot.net</a>&gt;</li>
+		<li><strong>copyright:</strong> - 2009 Arin Sarkissian</li>
+	</ul>
+<br /><hr />
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+    <div class="method-definition">
+            <span class="method-result">Duckk_SimpleHTTP_KeepAlive</span>
+        <a href="#method__construct" title="details" class="method-name">__construct</a>
+        (<span class="var-type"></span>&nbsp;<span class="var-name">$host</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$port</span> = <span class="var-default">self::DEFAULT_PORT</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$keepAliveTimeout</span> = <span class="var-default">self::DEFAULT_KEEPALIVE_TIMEOUT</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$keepAliveConnections</span> = <span class="var-default">self::DEFAULT_KEEPALIVE_CONNECTIONS</span>])
+        </div>
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetHttpVersion" title="details" class="method-name">setHttpVersion</a>
+        (<span class="var-type">int</span>&nbsp;<span class="var-name">$httpVersion</span>)
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="method__construct" id="method__construct"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/Constructor.gif" border="0" /> <strong class="method">Constructor __construct</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTPKeepAlive.php.html#a40">40</a></span>)
+ </h4> 
+<h4><i>Duckk_SimpleHTTP_KeepAlive</i> <strong>__construct(
+
+$host, [
+$port = self::DEFAULT_PORT], [
+$keepAliveTimeout = self::DEFAULT_KEEPALIVE_TIMEOUT], [
+$keepAliveConnections = self::DEFAULT_KEEPALIVE_CONNECTIONS])</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../SimpleHTTP/Duckk_SimpleHTTP.html#method__construct">Duckk_SimpleHTTP::__construct()</a> Constructor</p>
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Constructor</h5>
+<div class="desc"><p>Constructor
+ Call the parent, set Connection header to Keep-Alive, and finally set the HTTP version to 1.1</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong> $host</strong>: </li>
+			<li><strong> $port</strong>: </li>
+			<li><strong> $keepAliveTimeout</strong>: </li>
+			<li><strong> $keepAliveConnections</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetHttpVersion" id="methodsetHttpVersion"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setHttpVersion</strong> (line <span class="linenumber"><a href="../__filesource/fsource_SimpleHTTP__SimpleHTTPKeepAlive.php.html#a56">56</a></span>)
+ </h4> 
+<h4><i>void</i> <strong>setHttpVersion(
+int
+$httpVersion)</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodsetHttpVersion">Duckk_SimpleHTTP::setHttpVersion()</a> Set the HTTP version you want to use</p>
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Override parent::setHttpVersion() in order to not</h5>
+<div class="desc"><p>Override parent::setHttpVersion() in order to not allow HTTP 1.0</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>int $httpVersion</strong>: Doesn't fuckin matter yo</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../SimpleHTTP/Duckk_SimpleHTTP.html">Duckk_SimpleHTTP</a></h4>
+				<h4>
+<img src="../media/images/Constructor.gif" border="0" /><strong class="method"> <a href="../SimpleHTTP/Duckk_SimpleHTTP.html#method__construct">Duckk_SimpleHTTP::__construct()</a></strong> - Constructor
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodaddHeader">Duckk_SimpleHTTP::addHeader()</a></strong> - Add a header for the next HTTP request
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodclose">Duckk_SimpleHTTP::close()</a></strong> - Close the socket and perform some housekeeping
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodconnect">Duckk_SimpleHTTP::connect()</a></strong> - Make the socket connection
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methoddebug">Duckk_SimpleHTTP::debug()</a></strong> - Debug stuff by using PHP's error_log
+ Check out your PHP installation's value for error_log in php. via ini_get('error_log') to find out where this info is going.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methoddelete">Duckk_SimpleHTTP::delete()</a></strong> - Run an HTTP DELETE
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methoddoHttp">Duckk_SimpleHTTP::doHttp()</a></strong> - Do the actually HTTP work
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodget">Duckk_SimpleHTTP::get()</a></strong> - Run an HTTP GET
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodgetRawResponse">Duckk_SimpleHTTP::getRawResponse()</a></strong> - Get the last HTTP response as a string
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodgetRequest">Duckk_SimpleHTTP::getRequest()</a></strong> - The the HTTP request as a string
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodgetResponseBody">Duckk_SimpleHTTP::getResponseBody()</a></strong> - Get the body of the last HTTP response
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodgetResponseHeaders">Duckk_SimpleHTTP::getResponseHeaders()</a></strong> - The the HTTP headers from the last response
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodgetResponseStatus">Duckk_SimpleHTTP::getResponseStatus()</a></strong> - The the HTTP status of the last request
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodhead">Duckk_SimpleHTTP::head()</a></strong> - Run an HTTP HEAD
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodpost">Duckk_SimpleHTTP::post()</a></strong> - Run an HTTP POST
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodput">Duckk_SimpleHTTP::put()</a></strong> - Run an HTTP PUT
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodread">Duckk_SimpleHTTP::read()</a></strong> - Read from the socket connection
+ We will be parsing the raw payload and splitting it into the body and headers.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodremoveHeader">Duckk_SimpleHTTP::removeHeader()</a></strong> - Remove a header for the next HTTP request
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodsetConnectTimeout">Duckk_SimpleHTTP::setConnectTimeout()</a></strong> - Set the timeout for the socket connection
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodsetDebug">Duckk_SimpleHTTP::setDebug()</a></strong> - Turn debugging on or off
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodsetHttpVersion">Duckk_SimpleHTTP::setHttpVersion()</a></strong> - Set the HTTP version you want to use
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodsetKeepAvlive">Duckk_SimpleHTTP::setKeepAvlive()</a></strong> - Set the value of the Keep-Alive request header
+ The Connection header will automatically be set to Keep-Alive.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodsetMethod">Duckk_SimpleHTTP::setMethod()</a></strong> - Set the method to use for the next HTTP request
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodsetNonBlocking">Duckk_SimpleHTTP::setNonBlocking()</a></strong> - Set the socket to clocking or non-blocking
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodsetPath">Duckk_SimpleHTTP::setPath()</a></strong> - Set the path to make the HTTP request to
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../SimpleHTTP/Duckk_SimpleHTTP.html#methodsetStreamTimeout">Duckk_SimpleHTTP::setStreamTimeout()</a></strong> - Set the timeout for the socket reads and writes
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../SimpleHTTP/Duckk_SimpleHTTP.html#method__destruct">Duckk_SimpleHTTP::__destruct()</a></strong> - Destructor
+		</h4> 
+
+				<br />
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Sat, 16 May 2009 13:32:07 -0700 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.1</a>
+	</div>
+</body>
+</html>
