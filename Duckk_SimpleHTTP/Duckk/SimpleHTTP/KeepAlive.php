@@ -29,7 +29,7 @@ require_once 'Duckk/SimpleHTTP.php';
  * @author    Arin Sarkissian <arin@rspot.net>
  * @copyright 2009 Arin Sarkissian 
  */
-class Duckk_SimpleHTTP_KeepAlive extends SimpleHTTP
+class Duckk_SimpleHTTP_KeepAlive extends Duckk_SimpleHTTP
 {
     /**
      * Constructor
