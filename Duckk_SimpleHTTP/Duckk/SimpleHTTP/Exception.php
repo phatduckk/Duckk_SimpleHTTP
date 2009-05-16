@@ -10,14 +10,14 @@
  * a copy of the New BSD License and are unable to obtain it through the web,
  * please send a note to license@php.net so we can mail you a copy immediately.
  *
- * @category  SimpleHttp
- * @package   SimpleHttp
+ * @category  Duckk
+ * @package   SimpleHTTP
  * @author    Arin Sarkissian <arin@rspot.net>
  * @copyright 2009 Arin Sarkissian
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @version   CVS: $Id$
  */
-class SimpleHttp_Exception extends Exception
+class Duckk_SimpleHTTP_Exception extends Exception
 {
     
 }

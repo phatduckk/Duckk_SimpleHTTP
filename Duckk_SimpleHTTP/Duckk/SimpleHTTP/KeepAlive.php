@@ -10,26 +10,26 @@
  * a copy of the New BSD License and are unable to obtain it through the web,
  * please send a note to license@php.net so we can mail you a copy immediately.
  *
- * @category  SimpleHttp
- * @package   SimpleHttp
+ * @category  Duckk
+ * @package   SimpleHTTP
  * @author    Arin Sarkissian <arin@rspot.net>
  * @copyright 2009 Arin Sarkissian
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @version   CVS: $Id$
  */
  
-require_once 'SimpleHttp.php';
+require_once 'Duckk/SimpleHTTP.php';
 
 /**
- * A simple class that decorates SimpleHttp to "force" Keep-Alive support.
+ * A simple class that decorates Duckk_SimpleHTTP to "force" Keep-Alive support.
  * Essentially it just sets the Connection header and forces HTTP 1.1 
  *
- * @category  SimpleHttp
- * @package   SimpleHttp
+ * @category  SimpleHTTP
+ * @package   SimpleHTTP
  * @author    Arin Sarkissian <arin@rspot.net>
  * @copyright 2009 Arin Sarkissian 
  */
-class SimpleHttp_KeepAlive extends SimpleHttp
+class Duckk_SimpleHTTP_KeepAlive extends SimpleHTTP
 {
     /**
      * Constructor

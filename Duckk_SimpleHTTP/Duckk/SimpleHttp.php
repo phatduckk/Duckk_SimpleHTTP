@@ -10,26 +10,26 @@
  * a copy of the New BSD License and are unable to obtain it through the web,
  * please send a note to license@php.net so we can mail you a copy immediately.
  *
- * @category  SimpleHttp
- * @package   SimpleHttp
+ * @category  Duckk
+ * @package   SimpleHTTP
  * @author    Arin Sarkissian <arin@rspot.net>
  * @copyright 2009 Arin Sarkissian
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @version   CVS: $Id$
  */
  
-require_once 'SimpleHttp/Exception.php';
+require_once 'Duckk/SimpleHTTP/Exception.php';
 
 /**
  * A simple-to-use class for basic HTTP communication over PHP's
  * socket operations/function
  *
- * @category  SimpleHttp
+ * @category  Duckk
  * @package   SimpleHttp
  * @author    Arin Sarkissian <arin@rspot.net>
  * @copyright 2009 Arin Sarkissian 
  */ 
-class SimpleHttp
+class Duckk_SimpleHTTP
 {
     private $host           = null;
     private $port           = null;
@@ -357,7 +357,7 @@ class SimpleHttp
         $this->socket = fsockopen($this->host, $this->port, $errno, $err, $timeout);
         
         if (! $this->socket) {
-            throw new SimpleHttp_Exception(
+            throw new Duckk_SimpleHTTP_Exception(
                 "Could not connect to {$this->host}:{$this->port} (code: $errno). Message: $err"                
             );
         } 
@@ -488,7 +488,7 @@ class SimpleHttp
         $this->rawResquest = implode("\r\n", $writeMe) . "\r\n\r\n{$body}";
         
         if (fwrite($this->socket, $this->rawResquest) === false) {
-            throw new SimpleHttp_Exception(
+            throw new Duckk_SimpleHTTP_Exception(
                 "Could not write to {$this->host}:{$this->port} (code: $errno). Message: $err"                
             );            
         } 
